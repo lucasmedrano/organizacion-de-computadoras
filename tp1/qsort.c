@@ -31,6 +31,15 @@ int main(int argc, char *argv[]){
         if(argc != 2) error_cantidad_parametros();
         mostrar_version();
     }
+
+    /*else if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[1], "--output") == 0)){
+        /*Llamar a qsort con el archivo en argv[2] y ordenando por letra
+    }
+
+    else if ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0) || (strcmp(argv[1], "-n") == 0)){
+        /*Llamar a qsort con el archivo en argv[3] y ordenando por numero
+    }*/
+
     else {error_parametros();}
 
 }
