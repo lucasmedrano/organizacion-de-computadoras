@@ -22,6 +22,30 @@ void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
     exit(numero_salida);
 }
 
+void qsort(char** izq, char** der, int num){
+    /* tomo *izq como el pivote */
+    if (izq != der) {
+        char *aux;
+        char **inicio = izq;
+        char **fin = der;
+        while (inicio != fin) {
+            while (strcmp(*inicio, *izq) <= 0) inicio++;  // falta hacer algo con num
+            while (strcmp(*fin, *izq) > 0) fin--;         // en estas lineas
+            if (inicio != fin){
+                aux = *inicio;
+                *inicio = *fin;
+                *fin = aux;
+            }
+        }
+        aux = *izq;
+        *izq = *fin;
+        *fin = aux;
+        qsort(izq, fin--, num); // no se si esta bien esto, quiero el anterior a fin
+        qsort(fin++, der, num); // idem pero con el siguiente
+    }
+
+}
+
 void orgaqsort(char *nombre_archivo_a_ordenar, char *nombre_archivo_a_escribir, bool ordenar_por_numero){
     /*Si nombre_archivo_a_escribir == Null escribe por stdout.
     Si nombre_archivo_a_escribir es un archivo, escribe en el archivo
@@ -31,9 +55,11 @@ void orgaqsort(char *nombre_archivo_a_ordenar, char *nombre_archivo_a_escribir, 
     /*FILE *archivo_a_escribir;*/
     FILE *archivo_a_ordenar;
 
-    archivo_a_ordenar = fopen(nombre_archivo_a_escribir,"r");
+    archivo_a_ordenar = fopen(nombre_archivo_a_ordenar,"r");
     /*archivo_a_escribir = fopen(nombre_archivo_a_escribir, "w")*/
-    char caracter;
+    char* palabra;
+    char** lista_de_strings;
+    int indice = 0;
 
     if (archivo_a_ordenar == NULL){
         mostrar_error_y_salir(mensaje_error_archivo_inexistente, salida_error_archivo_inexistente);
@@ -41,8 +67,12 @@ void orgaqsort(char *nombre_archivo_a_ordenar, char *nombre_archivo_a_escribir, 
     else{
         /*Esto lo hice para probar, pero aca habria que ordenar el archivo, ya que existe*/
         printf("\nEl contenido del archivo de prueba es \n\n");
-        while((caracter = fgetc(archivo_a_ordenar)) != EOF){
-            printf("%c",caracter);
+        while(palabra = fgets(archivo_a_ordenar)){
+            int i = strlen(palabra);
+            palabra[i-1] = '\0';
+            lista_de_strings[indice] = palabra;
+            indice++;
+         //   printf("%c",caracter);
         }
     }
     fclose(archivo_a_ordenar);
