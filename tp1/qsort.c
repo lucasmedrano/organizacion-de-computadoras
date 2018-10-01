@@ -22,7 +22,7 @@ void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
     exit(numero_salida);
 }
 
-void qsort(char** izq, char** der, int num){
+void orgaqsort(char** izq, char** der){
     /* tomo *izq como el pivote */
     if (izq != der) {
         char *aux;
@@ -40,41 +40,30 @@ void qsort(char** izq, char** der, int num){
         aux = *izq;
         *izq = *fin;
         *fin = aux;
-        qsort(izq, fin--, num); // no se si esta bien esto, quiero el anterior a fin
-        qsort(fin++, der, num); // idem pero con el siguiente
+        orgaqsort(izq, fin--); // no se si esta bien esto, quiero el anterior a fin
+        orgaqsort(fin++, der); // idem pero con el siguiente
     }
 
 }
 
-void orgaqsort(char *nombre_archivo_a_ordenar, char *nombre_archivo_a_escribir, bool ordenar_por_numero){
-    /*Si nombre_archivo_a_escribir == Null escribe por stdout.
-    Si nombre_archivo_a_escribir es un archivo, escribe en el archivo
-    Si ordenar_por_numero == False ordena por letra
-    Si ordenar_por_numero == True ordena por numero*/
-
-    /*FILE *archivo_a_escribir;*/
+void obtener_palabras(char *nombre_archivo, char **lista_palabras){
     FILE *archivo_a_ordenar;
+    archivo_a_ordenar = fopen(nombre_archivo,"r");
 
-    archivo_a_ordenar = fopen(nombre_archivo_a_ordenar,"r");
-    /*archivo_a_escribir = fopen(nombre_archivo_a_escribir, "w")*/
-    char* palabra;
-    char** lista_de_strings;
+    char *palabra;
+    if (archivo_a_ordenar == NULL) mostrar_error_y_salir(mensaje_error_archivo_inexistente, salida_error_archivo_inexistente);
+
+
+    char *palabras[30];
+    for (int i = 0; i < 30; i++) palabras[i] = NULL;
     int indice = 0;
 
-    if (archivo_a_ordenar == NULL){
-        mostrar_error_y_salir(mensaje_error_archivo_inexistente, salida_error_archivo_inexistente);
+    while(fgets(palabra, 30, archivo_a_ordenar)){
+        *(palabra + strlen(palabra) - 1) = '\0';
+        strcpy(lista_palabras[indice], palabra);
+        indice ++;
     }
-    else{
-        /*Esto lo hice para probar, pero aca habria que ordenar el archivo, ya que existe*/
-        printf("\nEl contenido del archivo de prueba es \n\n");
-        while(palabra = fgets(archivo_a_ordenar)){
-            int i = strlen(palabra);
-            palabra[i-1] = '\0';
-            lista_de_strings[indice] = palabra;
-            indice++;
-         //   printf("%c",caracter);
-        }
-    }
+
     fclose(archivo_a_ordenar);
 }
 
@@ -90,18 +79,23 @@ int main(int argc, char *argv[]){
         mostrar_version();
     }
 
+    char **lista_palabras = malloc(30 * sizeof(char*));
+    for (int i = 0; i < 30; i++){
+        lista_palabras[i] = malloc(30 * sizeof(char));
+        *lista_palabras[i] = '\0';
+    }
+
     else if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[1], "--output") == 0)){
-        /*Llama a qsort con el archivo en argv[2] y ordenando por letra*/
+        /*Llama a ordenar con el archivo en argv[2] y ordenando por letra*/
         if (argc < 4) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
-        orgaqsort(argv[3], argv[2], false);
+        obtener_palabras(argv[3], lista_palabras);
     }
 
     else if ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0) || (strcmp(argv[1], "-n") == 0)){
-        /*Llama a qsort con el archivo en argv[3] y ordenando por numero*/
+        /*Llama a ordenar con el archivo en argv[3] y ordenando por numero*/
         if (argc < 5) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
-        orgaqsort(argv[4], argv[3], true);
+        obtener_palabras(argv[4], lista_palabras);
     }
-
     else mostrar_error_y_salir(mensaje_error_parametros, salida_error_parametros);
 
 }
