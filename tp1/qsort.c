@@ -9,42 +9,12 @@
 #define mensaje_error_parametros "qsort: La combinación de parametros no es válida.\nIntente 'qsort -h' para más información"
 #define mensaje_error_archivo_inexistente "El archivo que quiere ordenar no existe"
 
-void liberar_memoria(char **lista, int tamanio){
-    for (int i = 0; i < 30; i++){
-        free(lista[i]);
-    }
-    free(lista);
-}
-
 void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
     fprintf(stderr, "%s\n", mensaje_error);
     exit(numero_salida);
 }
 
-void obtener_palabras(char *nombre_archivo, char **lista_palabras){
-    FILE *archivo_a_ordenar;
-    archivo_a_ordenar = fopen(nombre_archivo,"r");
-
-    char *palabra;
-    if (archivo_a_ordenar == NULL) mostrar_error_y_salir(mensaje_error_archivo_inexistente, salida_error_archivo_inexistente);
-
-    char *palabras[30];
-    for (int i = 0; i < 30; i++) palabras[i] = NULL;
-    int indice = 0;
-
-    while(fgets(palabra, 30, archivo_a_ordenar)){
-        *(palabra + strlen(palabra) - 1) = '\0';
-        strcpy(lista_palabras[indice], palabra);
-        indice ++;
-    }
-    fclose(archivo_a_ordenar);
-}
-
-int obtener_pos_fin(char **palabras){
-    int pos_fin = 0;
-    for (int i= 0; *(palabras[i]) != '\0'; i++) pos_fin ++;
-    return pos_fin;
-}
+void mostrar_version(){ printf("%s\n", "v1.0");}
 
 void mostrar_ayuda(){
     /*Sería mas lindo definir esta cadena en otro archivo y leerla de ahí Para que no quede hardcodeada*/
@@ -52,11 +22,35 @@ void mostrar_ayuda(){
     printf("%s\n", ayuda);
 }
 
-void mostrar_version(){ printf("%s\n", "v1.0");}
+int obtener_cantidad_palabras(char *nombre_archivo){
+    FILE *archivo;
+    archivo = fopen(nombre_archivo,"r");
+    int cantidad = 0;
+    char palabra[30];
+    while(fgets(palabra, 30, archivo)) cantidad ++;
+    return cantidad;
+}
 
+void obtener_palabras(char *nombre_archivo, char **lista_palabras){
+    FILE *archivo_a_ordenar;
+    archivo_a_ordenar = fopen(nombre_archivo,"r");
 
-void orgaqsort(char** izq, char** der){
-    /* tomo *izq como el pivote */
+    char palabra[100];
+    if (archivo_a_ordenar == NULL) mostrar_error_y_salir(mensaje_error_archivo_inexistente, salida_error_archivo_inexistente);
+
+    int indice = 0;
+
+    while(fgets(palabra, 100, archivo_a_ordenar) != NULL){
+        *(palabra + strlen(palabra) - 1) = '\0';
+        lista_palabras[indice] = malloc(strlen(palabra));
+        strcpy(lista_palabras[indice], palabra);
+        indice ++;
+    }
+    fclose(archivo_a_ordenar);
+}
+
+/*void orgaqsort(char** izq, char** der){
+     tomo *izq como el pivote
     if (izq != der) {
         char *aux;
         char **inicio = izq;
@@ -77,36 +71,7 @@ void orgaqsort(char** izq, char** der){
         orgaqsort(fin++, der); // idem pero con el siguiente
     }
 
-}
-
-void orgaqsort2(char **lista, int cant_elementos){
-    if(cant_elementos <= 1) return;
-    int pos_pivote = 0;
-    char *pivote;
-    char **izq = malloc(cant_elementos*sizeof(char*));
-    char **der = malloc(cant_elementos*sizeof(char*));
-    for(int i = 0; i < cant_elementos; i++){
-        izq[i] = malloc(30 * sizeof(char));
-        der[i] = malloc(30 * sizeof(char));
-        *izq[i] = '\0';
-        *der[i] = '\0';
-    }
-
-    strcpy(pivote, lista[0]);
-    int indice_izq = 0;
-    int indice_der = 0;
-
-
-
-    for (int i = 0; i < cant_elementos; i++){
-        if(strcmp(lista[i], pivote) <= 0){
-            strcpy(izq[indice_izq],pivote);
-            indice_izq++;
-        }
-    }
-
-
-}
+}*/
 
 int main(int argc, char *argv[]){
 
@@ -121,36 +86,22 @@ int main(int argc, char *argv[]){
     }
 
     if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[1], "--output") == 0)){
-        /*Llama a ordenar con el archivo en argv[2] y ordenando por letra*/
         if (argc < 4)mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
 
-        char **lista_palabras = malloc(30 * sizeof(char*));
-        for (int i = 0; i < 30; i++){
-            lista_palabras[i] = malloc(30 * sizeof(char));
-            *lista_palabras[i] = '\0';
-        }
-
+        int cantidad_palabras = obtener_cantidad_palabras(argv[3]);
+        char **lista_palabras = malloc(cantidad_palabras * sizeof(char*));
         obtener_palabras(argv[3], lista_palabras);
-        int pos_fin = obtener_pos_fin(lista_palabras);
-        orgaqsort2(lista_palabras, pos_fin + 1);
 
-        //liberar_memoria(lista_palabras, 30);
     }
 
     else if ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0) || (strcmp(argv[1], "-n") == 0)){
-        /*Llama a ordenar con el archivo en argv[3] y ordenando por numero*/
         if (argc < 5) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
-        char **lista_palabras = malloc(30 * sizeof(char*));
-        for (int i = 0; i < 30; i++){
-            lista_palabras[i] = malloc(30 * sizeof(char));
-            *lista_palabras[i] = '\0';
-        }
-        obtener_palabras(argv[4], lista_palabras);
-        int pos_fin = obtener_pos_fin(lista_palabras);
-        orgaqsort2(lista_palabras, pos_fin + 1);
-        liberar_memoria(lista_palabras, 30);
 
+        int cantidad_palabras = obtener_cantidad_palabras(argv[4]);
+        char **lista_palabras = malloc(cantidad_palabras * sizeof(char*));
+        obtener_palabras(argv[4], lista_palabras);
     }
+
     else mostrar_error_y_salir(mensaje_error_parametros, salida_error_parametros);
 
 }
