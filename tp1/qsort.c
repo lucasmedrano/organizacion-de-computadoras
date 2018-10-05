@@ -55,14 +55,20 @@ void obtener_palabras(FILE* archivo_a_ordenar, char **lista_palabras, int len){
     }
 }
 
-void orgaqsort(char** izq, char** der){
+int comparar_como_numero(const char *numero1,const char *numero2){
+    int n1 = atoi(numero1);
+    int n2 = atoi(numero2);
+    return(n1-n2);
+}
+
+void orgaqsortgeneral(char** izq, char** der, int (*fcmp)(const char *,const char *)){
     if (izq <= der) {
         char *aux;
         char **inicio = izq;
         char **fin = der;
         while (inicio < fin){
-            while ((strcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++; //falta hacer que compare enteros, que seria
-            while ((strcmp(*fin, *izq) > 0) && (fin > izq)) fin--;       //atoi(*inicio) <=/> atoi(*izq), y tambien hacer qsort general
+            while ((fcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++; //falta hacer que compare enteros, que seria
+            while ((fcmp(*fin, *izq) > 0) && (fin > izq)) fin--;       //atoi(*inicio) <=/> atoi(*izq), y tambien hacer qsort general
             if (inicio < fin){
                 aux = *inicio;
                 *inicio = *fin;
@@ -72,10 +78,16 @@ void orgaqsort(char** izq, char** der){
         aux = *izq;
         *izq = *fin;
         *fin = aux;
-        orgaqsort(izq, fin-1);
-        orgaqsort(fin+1, der);
+        orgaqsortgeneral(izq, fin-1, fcmp);
+        orgaqsortgeneral(fin+1, der, fcmp);
     }
+}
 
+void orgaqsort(char **izq, char **der, int num){
+    //si num = 0 ordena alfabeticamente
+    //Si num != 0 ordena como numeros
+    if (num) orgaqsortgeneral(izq, der, comparar_como_numero);
+    else orgaqsortgeneral(izq, der, strcmp);
 }
 
 int main(int argc, char *argv[]){
@@ -128,12 +140,11 @@ int main(int argc, char *argv[]){
     rewind(archivo);
     lista_palabras = malloc(cantidad_palabras * sizeof(char*));
     obtener_palabras(archivo, lista_palabras, longitud);
-    orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1);
+    orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
     for (int i = 0; i < cantidad_palabras; i++){
         fprintf(output, "%s\n",lista_palabras[i]);
         free(lista_palabras[i]);
     }
-    printf("%i\n", criterio_ordenamiento);
     fclose(archivo);
     fclose(output);
     free(lista_palabras);
