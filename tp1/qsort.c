@@ -38,17 +38,23 @@ int obtener_longitud_maxima(FILE* archivo){
 
 int obtener_cantidad_palabras(FILE *archivo, int len){
     int cantidad = 0;
-    char palabra[len];
-    while(fscanf(archivo,"%s",palabra) != EOF) cantidad ++;
+    char c = ' ';
+    while (c != EOF){
+        c = fgetc(archivo);
+        if (c == '\n') cantidad ++;
+    }
     return cantidad;
 }
 
-void obtener_palabras(FILE* archivo_a_ordenar, char **lista_palabras, int len){
+void obtener_palabras(FILE* archivo, char **lista_palabras, int len, int cantidad_palabras){
     int indice = 0;
-    char palabra[len];
+    char palabra[len + 1];
 
-    while(fscanf(archivo_a_ordenar,"%s",palabra) != EOF){
-        *(palabra + strlen(palabra)) = '\0';
+    for (int i = 0; i < cantidad_palabras; i++){
+        fgets(palabra, len + 1, archivo);
+        for(int j = 0; j < (strlen(palabra) + 1); j++){
+            if (palabra[j] == '\n' || palabra[j] == EOF) palabra[j] = '\0';
+        }
         lista_palabras[indice] = malloc(strlen(palabra) + 1);
         strcpy(lista_palabras[indice], palabra);
         indice ++;
