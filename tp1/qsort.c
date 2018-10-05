@@ -38,17 +38,23 @@ int obtener_longitud_maxima(FILE* archivo){
 
 int obtener_cantidad_palabras(FILE *archivo, int len){
     int cantidad = 0;
-    char palabra[len];
-    while(fscanf(archivo,"%s",palabra) != EOF) cantidad ++;
+    char palabra[len +1];
+    while(fgets(palabra, len, archivo)){
+        cantidad++;
+        printf("%d: %s", cantidad, palabra);
+    }
     return cantidad;
 }
 
 void obtener_palabras(FILE* archivo_a_ordenar, char **lista_palabras, int len){
     int indice = 0;
-    char palabra[len];
+    char palabra[len + 1];
 
-    while(fscanf(archivo_a_ordenar,"%s",palabra) != EOF){
-        *(palabra + strlen(palabra)) = '\0';
+    while(!feof(archivo_a_ordenar)){
+        fgets(palabra, len, archivo_a_ordenar);
+        if (*(palabra + strlen(palabra) -1) != '\n'){
+            strcat(palabra, "\n");
+        }
         lista_palabras[indice] = malloc(strlen(palabra) + 1);
         strcpy(lista_palabras[indice], palabra);
         indice ++;
@@ -67,8 +73,8 @@ void orgaqsortgeneral(char** izq, char** der, int (*fcmp)(const char *,const cha
         char **inicio = izq;
         char **fin = der;
         while (inicio < fin){
-            while ((fcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++; //falta hacer que compare enteros, que seria
-            while ((fcmp(*fin, *izq) > 0) && (fin > izq)) fin--;       //atoi(*inicio) <=/> atoi(*izq), y tambien hacer qsort general
+            while ((fcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++;
+            while ((fcmp(*fin, *izq) > 0) && (fin > izq)) fin--;
             if (inicio < fin){
                 aux = *inicio;
                 *inicio = *fin;
@@ -142,7 +148,7 @@ int main(int argc, char *argv[]){
     obtener_palabras(archivo, lista_palabras, longitud);
     orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
     for (int i = 0; i < cantidad_palabras; i++){
-        fprintf(output, "%s\n",lista_palabras[i]);
+        fprintf(output, "%s",lista_palabras[i]);
         free(lista_palabras[i]);
     }
     fclose(archivo);
