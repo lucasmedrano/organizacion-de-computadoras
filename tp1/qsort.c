@@ -43,6 +43,7 @@ int obtener_cantidad_palabras(FILE *archivo, int len){
         c = fgetc(archivo);
         if (c == '\n') cantidad ++;
     }
+    //printf("%i\n", cantidad);
     return cantidad;
 }
 
@@ -73,8 +74,8 @@ void orgaqsortgeneral(char** izq, char** der, int (*fcmp)(const char *,const cha
         char **inicio = izq;
         char **fin = der;
         while (inicio < fin){
-            while ((fcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++; //falta hacer que compare enteros, que seria
-            while ((fcmp(*fin, *izq) > 0) && (fin > izq)) fin--;       //atoi(*inicio) <=/> atoi(*izq), y tambien hacer qsort general
+            while ((fcmp(*inicio, *izq) <= 0) && (inicio < der))inicio++;
+            while ((fcmp(*fin, *izq) > 0) && (fin > izq)) fin--;
             if (inicio < fin){
                 aux = *inicio;
                 *inicio = *fin;
@@ -145,7 +146,7 @@ int main(int argc, char *argv[]){
     cantidad_palabras = obtener_cantidad_palabras(archivo, longitud);
     rewind(archivo);
     lista_palabras = malloc(cantidad_palabras * sizeof(char*));
-    obtener_palabras(archivo, lista_palabras, longitud);
+    obtener_palabras(archivo, lista_palabras, longitud, cantidad_palabras);
     orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
     for (int i = 0; i < cantidad_palabras; i++){
         fprintf(output, "%s\n",lista_palabras[i]);
