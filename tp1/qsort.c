@@ -50,9 +50,11 @@ void obtener_palabras(FILE* archivo, char **lista_palabras, int len, int cantida
     int indice = 0;
     char palabra[len + 1];
 
-    for (int i = 0; i < cantidad_palabras; i++){
+    int i;
+    for (i = 0; i < cantidad_palabras; i++){
+        int j;
         fgets(palabra, len + 1, archivo);
-        for(int j = 0; j < (strlen(palabra) + 1); j++){
+        for(j = 0; j < (strlen(palabra) + 1); j++){
             if (palabra[j] == '\n' || palabra[j] == EOF) palabra[j] = '\0';
         }
         lista_palabras[indice] = malloc(strlen(palabra) + 1);
@@ -100,7 +102,7 @@ void orgaqsort(char **izq, char **der, int num){
 
 int main(int argc, char *argv[]){
 
-    int longitud, cantidad_palabras, nro_archivo_entrada, nro_archivo_salida, criterio_ordenamiento;
+    int longitud, cantidad_palabras, nro_archivo_entrada, nro_archivo_salida, criterio_ordenamiento, i;
     char** lista_palabras;
     FILE* archivo;
     FILE* output = stdout;
@@ -150,7 +152,7 @@ int main(int argc, char *argv[]){
     lista_palabras = malloc(cantidad_palabras * sizeof(char*));
     obtener_palabras(archivo, lista_palabras, longitud, cantidad_palabras);
     orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
-    for (int i = 0; i < cantidad_palabras; i++){
+    for (i = 0; i < cantidad_palabras; i++){
         fprintf(output, "%s\n",lista_palabras[i]);
         free(lista_palabras[i]);
     }
