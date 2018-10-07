@@ -138,6 +138,13 @@ qsort: La cantidad de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
 	
+	Ingresando un argumento inválido:
+	\begin{verbatim}
+$ qsort -w
+qsort: La combinacion de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	
 	Ingresando más argumentos de los necesarios:
 	\begin{verbatim}
 $ qsort f f f f f
@@ -339,6 +346,7 @@ int main(int argc, char *argv[]){
     if ((argc < 2) || argc > 5) {
         mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
     }
+
     else if ((strcmp(argv[1], "-h") == 0) || (strcmp(argv[1], "--help") == 0)){
         if(argc != 2) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         mostrar_ayuda();
@@ -357,7 +365,7 @@ int main(int argc, char *argv[]){
         criterio_ordenamiento = 0;
     }
 
-    else if (((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0)) && ((strcmp(argv[1], "-n") == 0) || (strcmp(argv[1], "--numeric") == 0))) {
+    else if ((argc > 2) && ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0)) && ((strcmp(argv[1], "-n") == 0) || (strcmp(argv[1], "--numeric") == 0))) {
         if (argc != 5) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         nro_archivo_entrada = 4;
         nro_archivo_salida = 3;
