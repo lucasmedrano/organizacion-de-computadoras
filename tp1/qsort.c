@@ -43,7 +43,6 @@ int obtener_cantidad_palabras(FILE *archivo, int len){
         c = fgetc(archivo);
         if (c == '\n') cantidad ++;
     }
-    //printf("%i\n", cantidad);
     return cantidad;
 }
 
@@ -67,6 +66,8 @@ int comparar_como_numero(const char *numero1,const char *numero2){
     int n2 = atoi(numero2);
     return(n1-n2);
 }
+
+//----------------------------------------------------------------------------------------------
 
 void orgaqsortgeneral(char** izq, char** der, int (*fcmp)(const char *,const char *)){
     if (izq <= der) {
@@ -107,6 +108,7 @@ int main(int argc, char *argv[]){
     if ((argc < 2) || argc > 5) {
         mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
     }
+
     else if ((strcmp(argv[1], "-h") == 0) || (strcmp(argv[1], "--help") == 0)){
         if(argc != 2) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         mostrar_ayuda();
@@ -125,7 +127,7 @@ int main(int argc, char *argv[]){
         criterio_ordenamiento = 0;
     }
 
-    else if (((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0)) && ((strcmp(argv[1], "-n") == 0) || (strcmp(argv[1], "--numeric") == 0))) {
+    else if ((argc > 2) && ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0)) && ((strcmp(argv[1], "-n") == 0) || (strcmp(argv[1], "--numeric") == 0))) {
         if (argc != 5) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         nro_archivo_entrada = 4;
         nro_archivo_salida = 3;
