@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {2.1}Implementaci\IeC {\'o}n}{6}
 \contentsline {subsection}{\numberline {2.2}Pruebas}{6}
 \contentsline {subsubsection}{\numberline {2.2.1}Entradas incorrectas}{6}
-\contentsline {subsubsection}{\numberline {2.2.2}Ordenando l\IeC {\'\i }neas}{6}
-\contentsline {subsection}{\numberline {2.3}Diagramas de stack}{7}
+\contentsline {subsubsection}{\numberline {2.2.2}Ordenando l\IeC {\'\i }neas}{7}
+\contentsline {subsection}{\numberline {2.3}Diagramas de stack}{8}
 \contentsline {section}{\numberline {3}Conclusiones}{8}
 \contentsline {section}{\numberline {4}C\IeC {\'o}digo fuente}{9}
