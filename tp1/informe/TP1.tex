@@ -158,9 +158,10 @@ $ qsort -o - numbers.txt
 El archivo que quiere ordenar no existe
 	\end{verbatim}
 	
-	Ingresando el orden incorrecto de parámetros
+	Ingresando el orden incorrecto de parámetros (primero \texttt{-o} y luego \texttt{-n}):
 	\begin{verbatim}
-$ qsort: La combinacion de parametros no es la correcta.
+$ qsort -o -n - numeros.txt
+qsort: La combinacion de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
 	
