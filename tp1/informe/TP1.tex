@@ -31,6 +31,7 @@ captionpos=b,
 breaklines=true
 }
 
+
 %\lstdefinestyle{CStyle}{
 %    backgroundcolor=\color{backgroundColour},   
 %    commentstyle=\color{mGreen},
@@ -73,7 +74,7 @@ breaklines=true
 	\maketitle
 	\thispagestyle{empty}
 	\begin{abstract}
-		Este artículo es un modelo que proporciona a los alumnos las instrucciones necesarias para preparar sus informes para la asignatura \textit{66.20 Organización de Computadoras}. El informe deberá contener un resumen de no más de 150 palabras. La primera página del artículo deberá seguir el formato que se ilustra en el presente modelo y deberá contener el título, los nombres de los autores, sus números de padrón, sus direcciones de e-mail, número de grupo y el resumen. La primera página del informe no debe ser numerada.
+		En este trabajo se quiere desarrollar un programa escrito en lenguaje C que implementa un algoritmo de Quicksort. Dicho programa ordena alfabéticamente o numéricamente las líneas de un archivo \texttt{.txt}. Se visualizará en pantalla tanto el resultado como los errores que se produzcan. El algoritmo de Quicksort tendrá una implementación en assembler MIPS32, además de la versión en C, para la cual se empleará la convención de pasaje de parámetros establecida en la ABI explicada en clase.
 	\end{abstract}
 	
 	\pagebreak
@@ -112,13 +113,100 @@ breaklines=true
 		\centering
 		\includegraphics[scale=1, page = 5, clip, trim=20mm 36mm 20mm 20mm]{files/enunciado.pdf}
 	\end{figure}
+	
+	\section{Desarrollo}
+	
+		El programa puede tomar opciones de entrada para indicar el tipo de ordenamiento (alfabético o numérico) y argumentos que designan la salida y el archivo a ordenar.
+		
+	\subsection{Implementación}
+		
+		Los errores se definen como cadenas de caracteres constantes. Los mensajes de error se llaman con una función a la que se le pasa el mensaje a mostrar y el número que le corresponde al error.
+		
+		Las invocaciones a la línea de comandos (como el pedido de versión o de ayuda) también se guardan en cadenas. El tipo de mensaje a mostrar es pasado a la función que los visualiza.
+		
+		El Quicksort diferencia el tipo de ordenamiento que se hará en un método de ordenamiento general. Esto se logra con un entero identificador: si vale 1, el ordenamiento es numérico; para cualquier otro valor se realizará un ordenamiento alfabético. En el primer caso se utilizará una función atoi para pasar las cadenas de caracteres a números enteros. En el otro caso se compararán las cadenas entre sí.
+		
+		Al inicio de la función \texttt{main} se verifican los argumentos ingresados para ver si coinciden con las opciones requeridas.	Así se puede responder de acuerdo con el comportamiento elegido. 
+		
+	\subsection{Pruebas}
+	
+	\subsubsection{Entradas incorrectas}
+	Ingresando sólo el nombre del programa ejecutable:
+	\begin{verbatim}
+$ qsort
+qsort: La cantidad de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	
+	Ingresando más argumentos de los necesarios:
+	\begin{verbatim}
+$ qsort f f f f f
+qsort: La cantidad de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	
+	Ingresando un archivo que no existe:
+	\begin{verbatim}
+$ qsort -o - numbers.txt
+El archivo que quiere ordenar no existe
+	\end{verbatim}
+	
+	\subsubsection{Ordenando líneas}
+	Ingresando un archivo para ordenar alfabéticamente:
+	\begin{verbatim}
+$ qsort -o - zeta.txt
+zzzzzzzzzzzz a
+zzzzzzzzzzzz b
+zzzzzzzzzzzz sabia que Asuntos Internos le tendia una trampa
+	\end{verbatim}
+	
+	\begin{verbatim}
+$ qsort -o - numeros.txt
+1
+10
+2
+3
+4
+5
+6
+7
+8
+9
+	\end{verbatim}
+	
+	Ingresando un archivo para ordenar numéricamente:
+	\begin{verbatim}
+$ qsort -n -o - zeta.txt
+zzzzzzzzzzzz b
+zzzzzzzzzzzz sabia que Asuntos Internos le tendia una trampa
+zzzzzzzzzzzz a
+	\end{verbatim}
+	
+	\begin{verbatim}
+$ qsort -n -o - numeros.txt
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+	\end{verbatim}
 
-	\section{Implementación}
+	\subsection{Diagramas de stack}
 	
-	\section{Pruebas}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1]{files/stack_frame.eps}
+		\caption{Diagrama de stack para...}
+		\label{fig:diag:stack}
+	\end{figure}
+	\section{Conclusiones}
 	
-	\section{Diagramas de stack}
-	
+	\newpage
 	\section{Código fuente}
 	
 	\begin{lstlisting}
@@ -153,7 +241,7 @@ void mostrar_ayuda(){printf("%s\n", MENSAJE_AYUDA);}
 	
 	\begin{lstlisting}
 int obtener_longitud_maxima(FILE* archivo){
-    //Obtiene longitud contando el \n o \0 del final
+    // Obtiene longitud contando el \n o \0 del final
     // ejemplo: para "hola", maximo = 5
     int maximo = 0;
     int actual = 0;
