@@ -121,11 +121,14 @@ int main(int argc, char *argv[]){
         mostrar_version();
         return 0;
     }
-
+    // Verificación para ingreso de ordenamientos y archivos
     else if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[1], "--output") == 0)){
+        // Combinación desordenada para ordenamiento numérico
         if (((strcmp(argv[2], "-n")) == 0) || (strcmp(argv[2], "--numeric")) == 0){
             mostrar_error_y_salir(mensaje_error_parametros,salida_error_parametros);
         }
+        // Chequea el argumento que indica la entrada del nombre del archivo: argv[2]
+        if ((strcmp(argv[2], "-") != 0))  mostrar_error_y_salir(mensaje_error_parametros,salida_error_parametros);
         if (argc != 4) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         nro_archivo_entrada = 3;
         nro_archivo_salida = 2;
@@ -133,6 +136,8 @@ int main(int argc, char *argv[]){
     }
 
     else if ((argc > 2) && ((strcmp(argv[2], "-o") == 0) || (strcmp(argv[2], "--output") == 0)) && ((strcmp(argv[1], "-n") == 0) || (strcmp(argv[1], "--numeric") == 0))) {
+        // Chequea el argumento que indica la entrada del nombre del archivo: argv[3]
+        if ((strcmp(argv[3], "-") != 0))  mostrar_error_y_salir(mensaje_error_parametros,salida_error_parametros);
         if (argc != 5) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         nro_archivo_entrada = 4;
         nro_archivo_salida = 3;
