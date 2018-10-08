@@ -145,6 +145,20 @@ qsort: La combinacion de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
 	
+	Ingresando un argumento inválido en ordenamiento alfabético (\texttt{+} en lugar de \texttt{-}):
+	\begin{verbatim}
+$ qsort -o + zeta.txt
+qsort: La combinacion de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	
+	Ingresando un argumento inválido en ordenamiento numérico (\texttt{g} en lugar de \texttt{-}):
+	\begin{verbatim}
+$ qsort -n -o g zeta.txt
+qsort: La combinacion de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	
 	Ingresando más argumentos de los necesarios:
 	\begin{verbatim}
 $ qsort f f f f f
