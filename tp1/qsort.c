@@ -121,7 +121,7 @@ int main(int argc, char *argv[]){
         mostrar_version();
         return 0;
     }
-
+    // Verificación para ingreso de ordenamientos y archivos
     else if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[1], "--output") == 0)){
         if (argc != 4) mostrar_error_y_salir(mensaje_error_cantidad_parametros, salida_error_parametros);
         nro_archivo_entrada = 3;

@@ -158,6 +158,16 @@ $ qsort -o - numbers.txt
 El archivo que quiere ordenar no existe
 	\end{verbatim}
 	
+	Ingresando el orden incorrecto de parámetros (primero \texttt{-o} y luego \texttt{-n}):
+	\begin{verbatim}
+$ qsort -o -n - numeros.txt
+qsort: La combinacion de parametros no es la correcta.
+Intente 'qsort -h' para mas informacion
+	\end{verbatim}
+	Aquí detecta que la opción de ordenamiento alfabético tiene argumentos de más.
+	
+	
+	
 	\subsubsection{Ordenando líneas}
 	Ingresando un archivo para ordenar alfabéticamente:
 	\begin{verbatim}
@@ -181,6 +191,13 @@ $ qsort -o - numeros.txt
 9
 	\end{verbatim}
 	
+	Ingresando el nombre del archivo que se desea para salida de un ordenamiento alfabético:
+	\begin{verbatim}
+$ qsort -o orden_alfabetico.txt numeros.txt
+	\end{verbatim}
+	Se genera un archivo con el nombre \texttt{orden\_alfabetico.txt} que contiene las palabras de \texttt{numeros.txt} en orden alfabético.
+	
+	\vspace*{12pt}
 	Ingresando un archivo para ordenar numéricamente:
 	\begin{verbatim}
 $ qsort -n -o - zeta.txt
@@ -202,6 +219,12 @@ $ qsort -n -o - numeros.txt
 9
 10
 	\end{verbatim}
+	
+	Ingresando el nombre del archivo que se desea para salida de un ordenamiento numérico:
+	\begin{verbatim}
+$ qsort -n -o orden_numerico.txt numeros.txt
+	\end{verbatim}
+	Se genera un archivo con el nombre \texttt{orden\_alfabetico.txt} que contiene las palabras de \texttt{numeros.txt} en orden numérico.
 
 	\subsection{Diagramas de stack}
 	
