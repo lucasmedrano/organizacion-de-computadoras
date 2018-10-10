@@ -1,7 +1,9 @@
+extern void orgaqsortassembly(char** izq, char** der, int num);
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <mips/regdef.h>
 
 #define salida_error_parametros 1
 #define salida_error_archivo_inexistente 2
@@ -11,7 +13,7 @@
 #define MENSAJE_AYUDA "Usage:\n\tqsort -h\n\tqsort -V\n\tqsort [options] archivo\nOptions:\n\t-h, --help \tImprime ayuda.\n\t-V, --version \tVersión del programa.\n\t-o, --output \tArchivo de salida.\n\t-n, --numeric \tOrdenar los datos numéricamente en vez de alfabéticamente.\nExamples:\n\tqsort -n numeros.txt"
 #define VERSION "v1.0"
 
-extern void qsort(char** izq, char** der, int num);
+
 
 void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
     fprintf(stderr, "%s\n", mensaje_error);
@@ -153,7 +155,7 @@ int main(int argc, char *argv[]){
     rewind(archivo);
     lista_palabras = malloc(cantidad_palabras * sizeof(char*));
     obtener_palabras(archivo, lista_palabras, longitud, cantidad_palabras);
-    qsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
+    orgaqsortassembly(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
     for (i = 0; i < cantidad_palabras; i++){
         fprintf(output, "%s\n",lista_palabras[i]);
         free(lista_palabras[i]);
