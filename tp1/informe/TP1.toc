@@ -8,3 +8,5 @@
 \contentsline {subsection}{\numberline {2.3}Diagramas de stack}{8}
 \contentsline {section}{\numberline {3}Conclusiones}{8}
 \contentsline {section}{\numberline {4}C\IeC {\'o}digo fuente}{9}
+\contentsline {subsection}{\numberline {4.1}C\IeC {\'o}digo en C}{9}
+\contentsline {subsection}{\numberline {4.2}C\IeC {\'o}digo Assembly}{12}
