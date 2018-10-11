@@ -1,4 +1,3 @@
-extern void orgaqsortassembly(char** izq, char** der, int num);
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,7 +12,7 @@ extern void orgaqsortassembly(char** izq, char** der, int num);
 #define MENSAJE_AYUDA "Usage:\n\tqsort -h\n\tqsort -V\n\tqsort [options] archivo\nOptions:\n\t-h, --help \tImprime ayuda.\n\t-V, --version \tVersión del programa.\n\t-o, --output \tArchivo de salida.\n\t-n, --numeric \tOrdenar los datos numéricamente en vez de alfabéticamente.\nExamples:\n\tqsort -n numeros.txt"
 #define VERSION "v1.0"
 
-
+extern void orgaqsortassembly(char** izq, char** der, int num);
 
 void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
     fprintf(stderr, "%s\n", mensaje_error);
