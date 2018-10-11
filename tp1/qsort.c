@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
     rewind(archivo);
     lista_palabras = malloc(cantidad_palabras * sizeof(char*));
     obtener_palabras(archivo, lista_palabras, longitud, cantidad_palabras);
-    orgaqsortassembly(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
+    orgaqsort(lista_palabras, lista_palabras + cantidad_palabras -1, criterio_ordenamiento);
     for (i = 0; i < cantidad_palabras; i++){
         fprintf(output, "%s\n",lista_palabras[i]);
         free(lista_palabras[i]);
