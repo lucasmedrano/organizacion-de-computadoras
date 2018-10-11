@@ -31,18 +31,16 @@ while1: subu    $10, $18, $19       # if (inicio >= fin) {
 while2: subu    $10, $17, $18       # if (inicio >= der){
         blez    $10, while3         #  while3}
 
-        add     $4, $0, $18        # Cargo inicio e izq
-        add     $5, $0, $16        # y num para
-        add     $6, $0, $20        # comparar
-        j       comparar           # Compara *inicio y *izq segun num y devuelve en $v0
+        add     $4, $0, $18         # Cargo inicio e izq
+        add     $5, $0, $16         # y num para
+        add     $6, $0, $20         # comparar
+        j       comparar            # Compara *inicio y *izq segun num y devuelve en $v0
         blez    $2, aumentar_inicio
-
-        bgtz    $2, while3
 
 while3: subu    $10, $19, $16       # if(fin <= izq){
         blez    $10, swap1          #   swap1}
 
-        add     $4, $0, $19        # Cargo der para comparar
+        add     $4, $0, $19         # Cargo der para comparar
         add		$5, $0, $16
         add		$6, $0, $20
         j       comparar
@@ -50,16 +48,20 @@ while3: subu    $10, $19, $16       # if(fin <= izq){
         bgtz    $2, decrementar_fin
         blez    $2, swap1
 
-swap1:  lw      $11, 0($18)         #Swap inicio-fin
-        lw      $12, 0($19)
-        sw      $11, 0($19)
-        sw      $12, 0($18)
-        b      while1
+swap1:  la		$21, 0($18)
+		la		$22, 0($19)
+		lw      $11, 0($21)         #Swap inicio-fin
+        lw      $12, 0($22)
+        sw      $11, 0($22)
+        sw      $12, 0($21)
+        b       while1
 
-swap2:  lw      $11, 0($16)         #Swap izq-fin
-        lw      $12, 0($19)
-        sw      $11, 0($19)
-        sw      $12, 0($16)
+swap2:  la		$21, 0($16)
+		la		$22, 0($19)
+		lw      $11, 0($21)         #Swap izq-fin
+        lw      $12, 0($22)
+        sw      $11, 0($22)
+        sw      $12, 0($21)
 
 
         addi    $19, $19, -4             # qsort(izq, fin-1, num)
@@ -113,7 +115,7 @@ loop:       lb      $11, 0($9)
 
 fin:        lw      $fp, 4($sp)
             lw      $gp, 0($sp)
-            add	    $sp, $sp, 8
+            addi    $sp, $sp, 8
             jr      $ra
 
 dev_cero:   add     $2, $0, $0
