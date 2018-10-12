@@ -118,7 +118,7 @@ loop:   lbu     $11, 0($9)
         subu    $13, $11, $12
         bltz    $13, dev_menor
         bgtz    $13, dev_mayor
-        beq     $11, $0, dev_cero       #habria que hacer una funcion comparar_numeros, porque esto con numeros no anda
+        beq     $11, $0, dev_cero
 
         addi    $9, $9, 1
         addi    $10, $10, 1
