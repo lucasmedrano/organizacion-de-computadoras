@@ -127,11 +127,13 @@ breaklines=true
 		
 		El programa podrá tomar sólo un parámetro, en caso que se desee acceder a la ayuda o a la versión, y un máximo de cuatro cuando se quiera ordenar un archivo. El primero de estos será el tipo de ordenamiento, que se considerará alfabético por defecto, por lo que este parámetro puede no estar; luego vendrá el output (\texttt{-o} o \texttt{--output}); el tercero será el archivo donde se escribirá el resultado del ordenamiento (\texttt{stdout} en caso de que se ingrese \texttt{-}); y por último el archivo a ordenar. Ingresar estos parámetros en cualquier otro orden resultará en un mensaje de error.
 		
-		Al inicio de la función \texttt{main} se verifican los argumentos ingresados para ver si coinciden con las opciones requeridas para que el programa pueda responder de acuerdo con el comportamiento elegido.
+		Al inicio de la función \texttt{main} se verificarán los argumentos ingresados para ver si coinciden con las opciones requeridas para que el programa pueda responder de acuerdo con el comportamiento elegido.
 		
 		Se decidió por implementar una versión \textit{in place} del algoritmo Quicksort, por cuestiones de simplicidad y para mayor legibilidad el código. Ésta diferencia el tipo de ordenamiento que se hará en un método de ordenamiento general, lo cual se logra con un entero identificador: si vale 1, el ordenamiento es numérico; para cualquier otro valor se realizará un ordenamiento alfabético. En el primer caso se utilizará una función atoi para pasar las cadenas de caracteres a números enteros mientras que en el otro caso se compararán las cadenas entre sí. 
 		
-		Se elegió cambiar el nombre de la función qsort puesto que esta se encuentra reservada por C. Se llamó orgaqsort a la función implementada en C, y orgaqsortassembly a su contraparte en assembly. 
+		Se elegió cambiar el nombre de la función qsort puesto que esta se encuentra reservada por C. Se llamará orgaqsort a la función implementada en C, y orgaqsortassembly a su contraparte en assembly.
+		
+		El comando utilizado para compilar el programa será \texttt{gcc -Wall -o qsort qsort.c orgaqsortassembly.s} 
 	\subsubsection{Diagramas de stack}
 		A continuación se muestran los diagramas de stack de las diferentes funciones del archivo assembly.
 			
@@ -140,67 +142,65 @@ breaklines=true
 	\subsubsection{Entradas incorrectas}
 	Ingresando sólo el nombre del programa ejecutable:
 	\begin{verbatim}
-$ qsort
+$ ./qsort
 qsort: La cantidad de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
-	
 	Ingresando un argumento inválido:
 	\begin{verbatim}
-$ qsort -w
+$ ./qsort -w
 qsort: La combinacion de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
-	
 	Ingresando más argumentos de los necesarios:
 	\begin{verbatim}
-$ qsort f f f f f
+$ ./qsort f f f f f
 qsort: La cantidad de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
-	
 	Ingresando un archivo que no existe:
 	\begin{verbatim}
-$ qsort -o - numbers.txt
+$ ./qsort -o - numbers.txt
 El archivo que quiere ordenar no existe
 	\end{verbatim}
-	
 	Ingresando el orden incorrecto de parámetros (primero \texttt{-o} y luego \texttt{-n}):
 	\begin{verbatim}
-$ qsort -o -n - numeros.txt
+$ ./qsort -o -n - numeros.txt
 qsort: La combinacion de parametros no es la correcta.
 Intente 'qsort -h' para mas informacion
 	\end{verbatim}
-	Aquí detecta que la opción de ordenamiento alfabético tiene argumentos de más.
+Aquí detecta que la opción de ordenamiento alfabético tiene argumentos de más.
 	
 	
 	
 	\subsubsection{Ordenando líneas}
-	Ingresando un archivo para ordenar alfabéticamente:
+Ingresando un archivo para ordenar alfabéticamente:
 	\begin{verbatim}
-$ qsort -o - zeta.txt
+$ ./qsort -o - zeta.txt
 zzzzzzzzzzzz a
 zzzzzzzzzzzz b
 zzzzzzzzzzzz sabia que Asuntos Internos le tendia una trampa
 	\end{verbatim}
 	
 	\begin{verbatim}
-$ qsort -o - numeros.txt
-1
-10
-2
-3
-4
-5
-6
-7
-8
-9
+$ ./qsort -o - text1.txt
+ aaaaaaa
+aaaaaaa
+aaaaaaa a
+aaaaaaa b
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+hola 
+
+que 
+tal 
+
 	\end{verbatim}
-	
 	Ingresando el nombre del archivo que se desea para salida de un ordenamiento alfabético:
 	\begin{verbatim}
-$ qsort -o orden_alfabetico.txt numeros.txt
+$ ./qsort -o orden_alfabetico.txt numeros.txt
 	\end{verbatim}
 	Se genera un archivo con el nombre \texttt{orden\_alfabetico.txt} que contiene las palabras de \texttt{numeros.txt} en orden alfabético.
 	\begin{verbatim}
@@ -216,18 +216,10 @@ $ cat orden_alfabetico.txt
 8
 9
 	\end{verbatim}
-	
-	\vspace*{12pt}
-	Ingresando un archivo para ordenar numéricamente:
+Ingresando un archivo para ordenar numéricamente:
+		
 	\begin{verbatim}
-$ qsort -n -o - zeta.txt
-zzzzzzzzzzzz b
-zzzzzzzzzzzz sabia que Asuntos Internos le tendia una trampa
-zzzzzzzzzzzz a
-	\end{verbatim}
-	
-	\begin{verbatim}
-$ qsort -n -o - numeros.txt
+$ ./qsort -n -o - numeros.txt
 1
 2
 3
@@ -239,12 +231,18 @@ $ qsort -n -o - numeros.txt
 9
 10
 	\end{verbatim}
-	
 	Ingresando el nombre del archivo que se desea para salida de un ordenamiento numérico:
 	\begin{verbatim}
-$ qsort -n -o orden_numerico.txt numeros.txt
+$ ./qsort -n -o orden_numerico.txt zeta.txt
 	\end{verbatim}
-	Se genera un archivo con el nombre \texttt{orden\_alfabetico.txt} que contiene las palabras de \texttt{numeros.txt} en orden numérico.
+	Se genera un archivo con el nombre \texttt{orden\_alfabetico.txt} que contiene las palabras de \texttt{zeta.txt} en orden numérico.
+	\begin{verbatim}
+$ cat orden_numerico.txt
+zzzzzzzzzzzz sabia que Asuntos Internos le tendia una trampa
+zzzzzzzzzzzz a
+zzzzzzzzzzzz b
+	\end{verbatim}
+	Por cuestiones de espacio no se muestran los resultados de correr el programa con los archivos \texttt{alice.txt} y \texttt{quijote.txt}.
 	
 	\section{Conclusiones}
 	
@@ -252,5 +250,5 @@ $ qsort -n -o orden_numerico.txt numeros.txt
 	Por otra parte, permitió aprender a programar en lenguaje ensamblador, prestándole atención a los detalles y valiéndose de las estructuras generadas por las funciones, como la pila, para almacenar los parámetros cuyo valor se quiere seguir a lo largo de la ejecución de esa función en particular. Sumado a esto, sirvió para comprender cómo combinar archivos en C y archivos en lenguaje assembly, cosa inédita hasta ese momento.
 	Sacamos del trabajo buenas prácticas, como lo son el probar las funciones del codigo assembly por separado para luego incorporarlas, ya que una vez que está todo junto se hace mas complejo; y el uso del debugger tanto para solucionar los problemas que pudiera tener el programa como para realizar el seguimiento del código ejecutado.
 	
-	Se entregan dos scripts. Uno en C, con una implementacion de qsort en C y otras funciones necesarias; y uno en assembly sólo con la funciones qsort, y comparar.
+	Se entregan dos scripts. Uno en C, con una implementacion de qsort en C y otras funciones necesarias; y uno en assembly sólo con la funciones \texttt{qsort}, \texttt{comparar} y \texttt{atoi}.
 \end{document}

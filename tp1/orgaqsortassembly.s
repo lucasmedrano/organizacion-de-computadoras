@@ -100,19 +100,32 @@ decrementar_fin:    addi    $19, $19, -4
 comparar:   .set noreorder
             .cpload $25
             .set reorder
-        subu    $sp, $sp, 8
-        sw      $fp, 4($sp)
-        sw      $gp, 0($sp)
+        subu    $sp, $sp, 32
+        sw		$ra, 24($sp)
+        sw      $fp, 20($sp)
+        sw      $gp, 16($sp)
 
-        sw      $4, 8($sp)
-        sw      $5, 12($sp)
-        sw      $6, 16($sp)
+        sw      $4, 32($sp)
+        sw      $5, 36($sp)
+        sw      $6, 40($sp)
 
         la		$14, 0($4)
         la		$15, 0($5)
-        lw      $9, 0($14)
+        lw      $9,  0($14)
+        add		$4,  $9, $0
+        jal		atoi
+        add		$13, $2, $0
         lw      $10, 0($15)
-loop:   lbu     $11, 0($9)
+        add		$4, $10, $0
+        jal		atoi
+        add		$12, $2, $0
+        bnez	$6, numeros
+		
+		lw		$9,  0($14)
+		lw		$10, 0($15)
+loop:   add     $11, $0, $0
+        add     $12, $0, $0
+		lbu     $11, 0($9)
         lbu     $12, 0($10)
 
         subu    $13, $11, $12
@@ -120,25 +133,59 @@ loop:   lbu     $11, 0($9)
         bgtz    $13, dev_mayor
         beq     $11, $0, dev_cero
 
-        addi    $9, $9, 1
+        addi    $9,  $9,  1
         addi    $10, $10, 1
 
-        add     $11, $0, $0
-        add     $11, $0, $0
         b       loop
+        
+numeros:subu	$14, $13, $12
+		bltz	$14, dev_menor
+		bgtz	$14, dev_mayor
+		beqz	$14, dev_cero
 
-fin:    lw      $fp, 4($sp)
-        lw      $gp, 0($sp)
-        addi    $sp, $sp, 8
+fin:    lw		$ra, 24($sp)
+		lw      $fp, 20($sp)
+        lw      $gp, 16($sp)
+        addi    $sp, $sp, 32
         jr       $ra
 
 dev_cero:   add     $2, $0, $0
             b fin
 
-dev_menor:  addi     $2, $0, -1
+dev_menor:  addi    $2, $0, -1
             b fin
 
 dev_mayor:  addi    $2, $0, 1
             b fin
 
-    .end comparar
+			.end comparar
+			.text
+			.align 2
+			.ent atoi
+    
+atoi:		.set noreorder
+			.cpload $25
+			.set reorder
+			subu	$sp, $sp, 8
+			sw		$fp, 4($sp)
+			sw		$gp, 0($sp)
+			sw		$4, 8($sp)
+			
+			add		$2, $0, $0
+			move	$8, $4
+			addi	$11, $0, 10
+ciclo:		lbu		$9, 0($8)
+			beq		$0, $9, terminar
+			addi	$10, $9, -48
+			mul		$2, $2, $11
+			add		$2, $2, $10
+			addi	$8, $8, 1
+			b ciclo
+			
+terminar:	lw		$fp, 4($sp)
+			lw		$gp, 0($sp)
+			addi	$sp, $sp, 8
+			jr		$ra
+			.end atoi
+			
+			
