@@ -61,10 +61,10 @@ swap2:  la		$21, 0($16)
         sw      $11, 0($22)
         sw      $12, 0($21)
 
-llamada_rec_1:  sw      $16, 16($sp)     # izq al ABA
-                sw      $17, 20($sp)     # der al ABA
-                sw      $18, 24($sp)     # inicio al ABA
-                sw      $19, 28($sp)     # fin al ABA
+llamada_rec_1:  sw      $16, 16($sp)     # izq al LTA
+                sw      $17, 20($sp)     # der al LTA
+                sw      $18, 24($sp)     # inicio al LTA
+                sw      $19, 28($sp)     # fin al LTA
 
                 addi    $19, $19, -4
                 add     $4, $0, $16
