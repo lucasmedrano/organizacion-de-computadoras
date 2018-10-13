@@ -10,11 +10,16 @@
 \usepackage{listingsutf8}
 \usepackage{xcolor}
 \usepackage{scrextend}
+\usepackage{array, multirow}
+\usepackage{booktabs}
+\usepackage{tabularx}
 
 \definecolor{mGreen}{rgb}{0,0.6,0}
 \definecolor{mGray}{rgb}{0.5,0.5,0.5}
 \definecolor{mPurple}{rgb}{0.58,0,0.82}
 \definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
 \lstset{
 language=C,
@@ -136,7 +141,62 @@ breaklines=true
 		El comando utilizado para compilar el programa será \texttt{gcc -Wall -o qsort qsort.c orgaqsortassembly.s} 
 	\subsubsection{Diagramas de stack}
 		A continuación se muestran los diagramas de stack de las diferentes funciones del archivo assembly.
-			
+		\begin{table}
+			\begin{center}
+				\begin{tabular}{|C{2cm}|C{2cm}|}
+					\hline
+					\multirow{4}{*}{\textbf{SRA}} & padding\\\cline{2-2}
+					&ra\\\cline{2-2}
+					&fp\\\cline{2-2}
+					&gp\\
+					\hline
+					\multirow{4}{*}{\textbf{LTA}} & fin\\\cline{2-2}
+					&inicio\\\cline{2-2}
+					&der\\\cline{2-2}
+					&izq\\
+					\hline
+					\multirow{4}{*}{\textbf{ABA}} & \\\cline{2-2}
+					&a2\\\cline{2-2}
+					&a1\\\cline{2-2}
+					&a0\\
+					\hline
+				\end{tabular}
+			\caption{Diagrama de stack de la función \texttt{orgaqsortasembly}}
+			\label{tab:Figura1}
+			\end{center}
+		\end{table}
+		\begin{table}
+			\begin{center}
+				\begin{tabular}{|C{2cm}|C{2cm}|}
+					\hline
+					\multirow{4}{*}{\textbf{SRA}} & padding\\\cline{2-2}
+					&ra\\\cline{2-2}
+					&fp\\\cline{2-2}
+					&gp\\
+					\hline
+					\multirow{4}{*}{\textbf{ABA}} & \\\cline{2-2}
+					&\\\cline{2-2}
+					&\\\cline{2-2}
+					&a0\\
+					\hline
+				\end{tabular}
+			\caption{Diagrama de stack de la función \texttt{comparar}}
+			\label{tab:Figura1}
+			\end{center}
+		\end{table}
+		\begin{table}
+			\begin{center}
+				\begin{tabular}{|C{2cm}|C{2cm}|}
+					\hline
+					\multirow{2}{*}{\textbf{SRA}}
+					&fp\\\cline{2-2}
+					&gp\\
+					\hline
+				\end{tabular}
+			\caption{Diagrama de stack de la función \texttt{atoi}}
+			\label{tab:Figura1}
+			\end{center}
+		\end{table}
 	\subsection{Pruebas}
 	
 	\subsubsection{Entradas incorrectas}
