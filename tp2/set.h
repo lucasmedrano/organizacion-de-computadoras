@@ -1,0 +1,9 @@
+#ifndef ORGANIZACION_DE_COMPUTADORAS_SET_H
+#define ORGANIZACION_DE_COMPUTADORAS_SET_H
+
+struct set;
+typedef struct set set_h;
+
+
+
+#endif //ORGANIZACION_DE_COMPUTADORAS_SET_H
