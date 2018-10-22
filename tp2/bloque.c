@@ -1,9 +1,14 @@
-#include "bloque.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "bloque.h"
+
 
 struct bloque{
+    int tag;
     int index;
-    bool dirty;
+    int dirty;
     bool valido;
     int tiempo_ultimo_uso;
     char* datos;
@@ -13,7 +18,7 @@ bloque_t* crear_bloque(int index){
     bloque_t* bloque = malloc(sizeof(bloque_t));
     if (!bloque) return NULL;
     bloque->index = index;
-    bloque->dirty = false;
+    bloque->dirty = 0;
     bloque->valido = false;
     bloque->tiempo_ultimo_uso = 0;
     bloque->datos = malloc(64);
@@ -21,12 +26,12 @@ bloque_t* crear_bloque(int index){
     return bloque;
 }
 
-void* destruir_bloque(bloque_t* bloque){
+void destruir_bloque(bloque_t* bloque){
     free(bloque->datos);
     free(bloque);
 }
 
-bool is_dirty(bloque_t* bloque){
+int is_dirty_bloque(bloque_t* bloque){
     return bloque->dirty;
 }
 
@@ -43,10 +48,14 @@ int get_ultimo_uso(bloque_t* bloque){
 }
 
 char read(bloque_t* bloque, int offset){
-    return bloque->datos[offset];
+    return (bloque->datos)[offset];
 }
 
 void write(bloque_t* bloque, int offset, char byte){
-    bloque->datos[offset] = byte;
+    (bloque->datos)[offset] = byte;
+}
+
+int obtener_tag(bloque_t* bloque){
+    return bloque->tag;
 }
 
