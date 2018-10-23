@@ -29,13 +29,30 @@ set_t* crear_set(int indice_set){
     return set;
 }
 
-int ready_byte_set(set_t *set, int tag, int offset){
+int read_byte_set(set_t *set, int tag, int offset){
     for (int i = 0; i < cant_bloques_en_set; i++){
-        if(obtener_tag(set->bloques[i]) == tag){
-            return int(read(set->bloques[i]), offset);
+        if(get_tag(set->bloques[i]) == tag){
+            return (int)(read(set->bloques[i], offset));
         }
     }
-    //Ver que hacer si no está esa address en cache.
+    //Ver que hacer si no está esa address en cache. Habria que buscarla, pero no hicimos esa funcion todavía
+}
+
+int find_lru_set(set_t* set){
+    bloque_t *bloque_mas_viejo;
+    int tiempo_maximo = 0;
+    for(int i = 1; i < cant_bloques_en_set; i++){
+        if(get_ultimo_uso(set->bloques[i]) > tiempo_maximo){
+            bloque_mas_viejo = set->bloques[i];
+        }
+    }
+
+    int tag = get_tag(bloque_mas_viejo);
+    
+    // | = OR
+    // 0x0 es el offset de la direccion inicial del bloque. Creo que es asi.
+    return (tag | set->indice | 0x0);
+
 }
 
 int is_dirty_set(set_t *set, int via){

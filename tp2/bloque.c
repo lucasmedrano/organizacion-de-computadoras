@@ -55,7 +55,7 @@ void write(bloque_t* bloque, int offset, char byte){
     (bloque->datos)[offset] = byte;
 }
 
-int obtener_tag(bloque_t* bloque){
+int get_tag(bloque_t* bloque){
     return bloque->tag;
 }
 

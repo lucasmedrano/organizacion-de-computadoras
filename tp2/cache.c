@@ -23,6 +23,10 @@ void init(){
 	}
 }
 
+int find_lru(int setnum){
+	return (find_lru_set((cache->sets[setnum])));
+}
+
 int find_set(int address){
 	return (address & 0x00f0);
 }
@@ -36,7 +40,11 @@ int read_byte(int address){
 	int index = address & 0x00f0;
 	int offset = address & 0x000f;
 
-	ready_byte_set(cache ->sets[index], tag, offset);
+	return(read_byte_set(cache ->sets[index], tag, offset));
+}
+
+int get_miss_rate(){
+	return (cache->tasa_de_misses);
 }
 
 int main(){
