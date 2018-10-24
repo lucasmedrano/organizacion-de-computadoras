@@ -47,11 +47,13 @@ int get_ultimo_uso(bloque_t* bloque){
     return bloque->tiempo_ultimo_uso;
 }
 
-char read(bloque_t* bloque, int offset){
+char read(bloque_t* bloque, int offset, int uso){
+    bloque->tiempo_ultimo_uso = uso;
     return (bloque->datos)[offset];
 }
 
-void write(bloque_t* bloque, int offset, char byte){
+void write(bloque_t* bloque, int offset, char byte, int uso){
+    bloque->tiempo_ultimo_uso = uso;
     (bloque->datos)[offset] = byte;
 }
 

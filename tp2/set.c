@@ -29,20 +29,28 @@ set_t* crear_set(int indice_set){
     return set;
 }
 
-int read_byte_set(set_t *set, int tag, int offset){
+int read_byte_set(set_t *set, int tag, int offset, int contador_usos){
     for (int i = 0; i < cant_bloques_en_set; i++){
         if(get_tag(set->bloques[i]) == tag){
-            return (int)(read(set->bloques[i], offset));
+            return (int)(read(set->bloques[i], offset, contador_usos));
         }
     }
     //Ver que hacer si no está esa address en cache. Habria que buscarla, pero no hicimos esa funcion todavía
 }
 
+void write_byte_set(set_t* set, char byte, int tag, int offset, int contador_usos){
+    for (int i = 0; i < cant_bloques_en_set; i++){
+        if(get_tag(set->bloques[i]) == tag){
+            return write(set->bloques[i], offset, byte, contador_usos));
+        }
+    }
+}
+
 int find_lru_set(set_t* set){
     bloque_t *bloque_mas_viejo;
-    int tiempo_maximo = 0;
+    int tiempo_minimo = 0;
     for(int i = 1; i < cant_bloques_en_set; i++){
-        if(get_ultimo_uso(set->bloques[i]) > tiempo_maximo){
+        if(get_ultimo_uso(set->bloques[i]) < tiempo_minimo){
             bloque_mas_viejo = set->bloques[i];
         }
     }
