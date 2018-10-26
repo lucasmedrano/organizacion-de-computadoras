@@ -9,5 +9,7 @@ int is_dirty_set(set_t *set, int via);
 int read_byte_set(set_t *set, int tag, int offset, int contador_usos);
 void write_byte_set(set_t* set, char byte, int tag, int offset, int contador_usos);
 int find_lru_set(set_t* set);
+bool esta_en_set(set_t* set, int tag);
+int get_tag_set(set_t* set, int via);
 
 #endif //ORGANIZACION_DE_COMPUTADORAS_SET_H

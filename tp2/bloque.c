@@ -4,24 +4,24 @@
 #include <stdbool.h>
 #include "bloque.h"
 
+#define TAMAÑO_BLOQUE 64
 
 struct bloque{
     int tag;
-    int index;
     int dirty;
     bool valido;
     int tiempo_ultimo_uso;
     char* datos;
 };
 
-bloque_t* crear_bloque(int index){
+bloque_t* crear_bloque(int tag){
     bloque_t* bloque = malloc(sizeof(bloque_t));
     if (!bloque) return NULL;
-    bloque->index = index;
+    bloque->tag = tag;
     bloque->dirty = 0;
     bloque->valido = false;
     bloque->tiempo_ultimo_uso = 0;
-    bloque->datos = malloc(64);
+    bloque->datos = malloc(TAMAÑO_BLOQUE);
     if (!(bloque->datos)) return NULL;
     return bloque;
 }
@@ -39,10 +39,6 @@ bool es_valido(bloque_t* bloque){
     return bloque->valido;
 }
 
-int get_index(bloque_t* bloque){
-    return bloque->index;
-}
-
 int get_ultimo_uso(bloque_t* bloque){
     return bloque->tiempo_ultimo_uso;
 }
@@ -53,8 +49,10 @@ char read(bloque_t* bloque, int offset, int uso){
 }
 
 void write(bloque_t* bloque, int offset, char byte, int uso){
+    bloque->valido = true;
     bloque->tiempo_ultimo_uso = uso;
     (bloque->datos)[offset] = byte;
+    bloque->dirty = 1;
 }
 
 int get_tag(bloque_t* bloque){
