@@ -81,7 +81,6 @@ int read_byte(int address){
 }
 
 int write_byte(int address, char value){
-	if (address > TAM_MEM_PPAL) return 1;
 	int tag = address & 0xff00;
 	int index = address & 0x00f0;
 	int offset = address & 0x000f;
@@ -100,12 +99,10 @@ int get_miss_rate(){
 }
 
 char read_byte_memoria(mem_principal_t* memoria, int address){
-	if (address > TAM_MEM_PPAL) return 1; //???
 	return memoria[address];
 }
 
 int write_byte_memoria(mem_principal_t* memoria, int address, char byte){
-	if (address > TAM_MEM_PPAL) return 1;
 	memoria[address] = byte;
 	return 0;
 }
@@ -117,9 +114,45 @@ void destruir_cache(){
 	free(cache);
 }
 
-int main(){
+void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
+	fprintf(stderr, "%s\n", mensaje_error);
+	exit(numero_salida);
+}
 
+int main(int argc, char* argv[]){
+	if (argc != 2) mostrar_error_y_salir("La cantidad de parametros no es la correcta", 1);
+	FILE* archivo = fopen(argv[1], "r");
+	if (!archivo) mostrar_error_y_salir("No se encontro el archivo", 2);
 
+	char* linea, comando1, comando2, comando3, fin = NULL;
+	const char* separador = " ";
+	long address;
+	char value;
 
+	init();
+	while (fgets(linea, 100, archivo)){
+		comando1 = strtok(linea, separador);
+		comando2 = strtok(linea, separador);
+		comando3 = strtok(linea, separador);
+		if (strcmp(comando1, "MR") == 0) printf("%d", get_miss_rate());
+		address = strtol(comando2, fin, 10);
+		if (strcmp(comando1, "R") == 0){
+			if (fin || address > TAM_MEM_PPAL){
+				printf("La direccion especificada no es valida");
+				continue;
+			}
+			if (strcmp(comando1, "W") == 0){
+				if (strlen(comando3) > 1){
+					printf("El valor indicado no es valido");
+					continue;
+				}
+				write_byte(address, comando3[0]);
+				continue;
+			}
+			printf("%c", read_byte((int)address));
+		}
+	}
+	fclose(archivo);
+	destruir_cache();
 	return 0;
 }
