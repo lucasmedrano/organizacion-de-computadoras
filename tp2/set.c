@@ -29,6 +29,11 @@ set_t* crear_set(int indice_set){
     return set;
 }
 
+void destruir_set(set_t* set){
+    free(set->bloques);
+    free(set);
+}
+
 bool esta_en_set(set_t* set, int tag){
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
         if(get_tag(set->bloques[i]) == tag){

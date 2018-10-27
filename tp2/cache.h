@@ -18,6 +18,7 @@ void write_block(int way, int, setnum);
 int read_byte(int address);
 int write_byte(int address, char value);
 int get_miss_rate();
+void destruir_cache();
 
 char read_byte_memoria(mem_principal_t* memoria, int address);
 int write_byte_memoria(mem_principal_t* memoria, int address, char byte);

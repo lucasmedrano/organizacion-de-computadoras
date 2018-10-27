@@ -100,7 +100,7 @@ int get_miss_rate(){
 }
 
 char read_byte_memoria(mem_principal_t* memoria, int address){
-	if (address > TAM_MEM_PPAL) return 1;
+	if (address > TAM_MEM_PPAL) return 1; //???
 	return memoria[address];
 }
 
@@ -108,6 +108,13 @@ int write_byte_memoria(mem_principal_t* memoria, int address, char byte){
 	if (address > TAM_MEM_PPAL) return 1;
 	memoria[address] = byte;
 	return 0;
+}
+
+void destruir_cache(){
+	free(mem_principal->datos);
+	free(cache->sets);
+	free(mem_principal);
+	free(cache);
 }
 
 int main(){
