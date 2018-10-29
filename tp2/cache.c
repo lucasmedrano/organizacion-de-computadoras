@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "cache.h"
 #include "set.h"
 #include "bloque.h"
@@ -38,11 +39,11 @@ void init(){
 }
 
 int find_lru(int setnum){
-	return (find_lru_set((cache->sets[setnum])));
+	return (find_lru_set((cache->sets[setnum]), cache->contador_usos));
 }
 
 int find_set(int address){
-	return (address & 0x00f0);
+	return (address & 0x00f0) >> 4;
 }
 
 int is_dirty(int way, int setnum){
@@ -52,7 +53,9 @@ int is_dirty(int way, int setnum){
 void read_block(int blocknum){
 	int index = blocknum % CANT_SETS_EN_CACHE;
 	int way = find_lru(index);
-	int tag = get_tag_set(cache->sets[index], way);
+	int tag = ((blocknum * TAM_BLOQUE_CACHE) & 0xff00) >> 8;
+	set_tag_set(cache->sets[index], way, tag);
+	int address = (tag << 8) | (index << 4);
 	if (is_dirty(way, index)){
 		write_block(way, index);
 	}
@@ -62,33 +65,34 @@ void read_block(int blocknum){
 }
 
 void write_block(int way, int setnum){
+	int tag = get_tag_set(cache->sets[setnum], way);
 	for (int i = 0; i < TAM_BLOQUE_CACHE; i++){
-		write_byte_memoria(mem_principal, setnum + get_tag_set(cache->sets[setnum], way) , read_byte_set(cache->sets[setnum], way, i, cache->contador_usos));
+		write_byte_memoria(mem_principal, (tag << 8)|(setnum << 4), read_byte_set(cache->sets[setnum], tag, i, cache->contador_usos));
 	}
 }
 
 int read_byte(int address){
-	int tag = address & 0xff00;
-	int index = address & 0x00f0;
+	int tag = (address & 0xff00) >> 8;
+	int index = (address & 0x00f0) >> 4;
 	int offset = address & 0x000f;
 	cache->contador_usos++;
 	cache->accesos_a_mem++;
 	if (!esta_en_set(cache->sets[index], tag)){
 		cache->misses++;
-		read_block((tag + index)/ TAM_BLOQUE_CACHE);
+		read_block((address & 0xfff0)/ TAM_BLOQUE_CACHE);
 	}
 	return(read_byte_set(cache ->sets[index], tag, offset, cache->contador_usos));
 }
 
 int write_byte(int address, char value){
-	int tag = address & 0xff00;
-	int index = address & 0x00f0;
+	int tag = (address & 0xff00) >> 8;
+	int index = (address & 0x00f0) >> 4;
 	int offset = address & 0x000f;
-	cache->contador_usos++;
+    cache->contador_usos++;
 	cache->accesos_a_mem++;
 	if (!esta_en_set(cache->sets[index], tag)){
 		cache->misses++;
-		read_block((tag + index)/ TAM_BLOQUE_CACHE);
+		read_block((address & 0xfff0)/ TAM_BLOQUE_CACHE);
 	}
 	write_byte_set(cache->sets[index], value, tag, offset, cache->contador_usos);
 	return 0;
@@ -99,15 +103,16 @@ int get_miss_rate(){
 }
 
 char read_byte_memoria(mem_principal_t* memoria, int address){
-	return memoria[address];
+	return memoria->datos[address];
 }
 
 int write_byte_memoria(mem_principal_t* memoria, int address, char byte){
-	memoria[address] = byte;
+	memoria->datos[address] = byte;
 	return 0;
 }
 
 void destruir_cache(){
+	for (int i = 0; i < CANT_SETS_EN_CACHE; i++) destruir_set(cache->sets[i]);
 	free(mem_principal->datos);
 	free(cache->sets);
 	free(mem_principal);
@@ -124,32 +129,41 @@ int main(int argc, char* argv[]){
 	FILE* archivo = fopen(argv[1], "r");
 	if (!archivo) mostrar_error_y_salir("No se encontro el archivo", 2);
 
-	char* linea, comando1, comando2, comando3, fin = NULL;
+	char linea[100];
+	char* comando;
+	char comando1[3];
 	const char* separador = " ";
-	long address;
-	char value;
+    int address;
 
 	init();
 	while (fgets(linea, 100, archivo)){
-		comando1 = strtok(linea, separador);
-		comando2 = strtok(linea, separador);
-		comando3 = strtok(linea, separador);
-		if (strcmp(comando1, "MR") == 0) printf("%d", get_miss_rate());
-		address = strtol(comando2, fin, 10);
-		if (strcmp(comando1, "R") == 0){
-			if (fin || address > TAM_MEM_PPAL){
-				printf("La direccion especificada no es valida");
+	    linea[strlen(linea) - 1] = '\0';
+		comando = strtok(linea, separador);
+		printf("%s\n", comando);
+		strcpy(comando1, comando);
+		if (strcmp(comando1, "MR") == 0) printf("%d\n", get_miss_rate());
+		if (strcmp(comando1, "R") == 0 || strcmp(comando1, "W") == 0){
+            comando = strtok(NULL, separador);
+            address = atoi(comando);
+         //   printf("%d\n", address);
+            if (address > TAM_MEM_PPAL){
+				printf("La direccion especificada no es valida\n");
 				continue;
 			}
 			if (strcmp(comando1, "W") == 0){
-				if (strlen(comando3) > 1){
-					printf("El valor indicado no es valido");
+			    comando = strtok(NULL, separador);
+			    int value = atoi(comando);
+			    unsigned char valuee = value;
+			    printf("%d\n", valuee);
+				if (value > 255 || value < 0){
+					printf("El valor indicado no es valido\n");
 					continue;
 				}
-				write_byte(address, comando3[0]);
+				if (!(write_byte(address, valuee))) printf("El valor se escribio correctamente\n");
+				else printf("El valor no pudo escribirse correctamente\n");
 				continue;
 			}
-			printf("%c", read_byte((int)address));
+			printf("%d\n", read_byte(address));
 		}
 	}
 	fclose(archivo);

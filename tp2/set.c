@@ -23,13 +23,14 @@ set_t* crear_set(int indice_set){
     set->indice = indice_set;
 
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
-        set->bloques[i] = crear_bloque(set->indice);
+        set->bloques[i] = crear_bloque();
     }
 
     return set;
 }
 
 void destruir_set(set_t* set){
+    for (int i = 0; i < CANT_BLOQUES_SET; i++) destruir_bloque(set->bloques[i]);
     free(set->bloques);
     free(set);
 }
@@ -46,25 +47,28 @@ bool esta_en_set(set_t* set, int tag){
 int read_byte_set(set_t *set, int tag, int offset, int contador_usos){
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
         if(get_tag(set->bloques[i]) == tag){
-            if (!es_valido(set->bloques[i])) return //no se que devolver aca
+            if (!es_valido(set->bloques[i])) return -1;
             return (int)(read(set->bloques[i], offset, contador_usos));
         }
     }
+    return -1;
 }
 
 void write_byte_set(set_t* set, char byte, int tag, int offset, int contador_usos){
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
         if(get_tag(set->bloques[i]) == tag){
-            return write(set->bloques[i], offset, byte, contador_usos));
+            write(set->bloques[i], offset, byte, contador_usos);
         }
     }
 }
 
-int find_lru_set(set_t* set){
-    int tiempo_minimo = 0;
+int find_lru_set(set_t* set, int contador_usos){
+    int tiempo_minimo = contador_usos, tiempo_actual;
     int way;
     for(int i = 1; i < CANT_BLOQUES_SET; i++){
-        if(get_ultimo_uso(set->bloques[i]) < tiempo_minimo){
+        tiempo_actual = get_ultimo_uso(set->bloques[i]);
+        if(tiempo_actual < tiempo_minimo){
+            tiempo_minimo = tiempo_actual;
             way = i;
         }
     }
@@ -74,6 +78,10 @@ int find_lru_set(set_t* set){
 
 int is_dirty_set(set_t *set, int via){
     return is_dirty_bloque(set->bloques[via]);
+}
+
+void set_tag_set(set_t* set, int via, int tag){
+    set_tag(set->bloques[via], tag);
 }
 
 int get_tag_set(set_t* set, int via){
