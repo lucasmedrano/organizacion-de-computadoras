@@ -102,7 +102,7 @@ int get_miss_rate(){
 	return (cache->misses/cache->accesos_a_mem)*100;
 }
 
-char read_byte_memoria(mem_principal_t* memoria, int address){
+unsigned char read_byte_memoria(mem_principal_t* memoria, int address){
 	return memoria->datos[address];
 }
 
@@ -153,13 +153,11 @@ int main(int argc, char* argv[]){
 			if (strcmp(comando1, "W") == 0){
 			    comando = strtok(NULL, separador);
 			    int value = atoi(comando);
-			    unsigned char valuee = value;
-			    printf("%d\n", valuee);
 				if (value > 255 || value < 0){
 					printf("El valor indicado no es valido\n");
 					continue;
 				}
-				if (!(write_byte(address, valuee))) printf("El valor se escribio correctamente\n");
+				if (!(write_byte(address, (unsigned char) value))) printf("El valor se escribio correctamente\n");
 				else printf("El valor no pudo escribirse correctamente\n");
 				continue;
 			}

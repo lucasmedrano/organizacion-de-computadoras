@@ -23,7 +23,7 @@ int write_byte(int address, char value);
 int get_miss_rate();
 void destruir_cache();
 
-char read_byte_memoria(mem_principal_t* memoria, int address);
+unsigned char read_byte_memoria(mem_principal_t* memoria, int address);
 int write_byte_memoria(mem_principal_t* memoria, int address, char byte);
 
 #endif //ORGANIZACION_DE_COMPUTADORAS_CACHE_H
