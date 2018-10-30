@@ -10,10 +10,19 @@
 #define TAM_MEM_PPAL 65536
 #define TAM_BLOQUE_CACHE 64
 
+#define MSJ_ERROR_PARAMETROS "La cantidad de parametros no es la correcta"
+#define MSJ_ARCHIVO_INEXISTENTE "No se encontro el archivo"
+#define SALIDA_PARAMETROS 1
+#define SALIDA_ARCHIVO 2
+#define MSJ_ERROR_ADDRESS "La direccion %d no es valida\n"
+#define MSJ_ERROR_VALUE "El valor %d no es valido\n"
+#define MSJ_WRITE_OK "El valor se escribio correctamente\n"
+#define MSJ_ERROR_WRITE "El valor no pudo escribirse correctamente\n"
+
 struct cache{
     set_t** sets;
-    int misses;
-    int accesos_a_mem;
+    float misses;
+    float accesos_a_mem;
     int contador_usos;
 };
 
@@ -26,7 +35,7 @@ mem_principal_t* mem_principal;
 
 void init(){
 	mem_principal = malloc(sizeof(mem_principal_t));
-	mem_principal->datos = malloc(TAM_MEM_PPAL);
+	mem_principal->datos = calloc(TAM_MEM_PPAL, 1);
 
 	cache = malloc(sizeof(cache_t));
 	cache->misses = 0;
@@ -43,7 +52,19 @@ int find_lru(int setnum){
 }
 
 int find_set(int address){
-	return (address & 0x00f0) >> 4;
+    unsigned int index = address << 22;
+	return index >> 28;
+}
+
+int find_offset(int address){
+    unsigned int offset = address & 0x000000ff;
+    offset <<= 26;
+    return offset >> 26;
+}
+
+int find_tag(int address){
+    unsigned int tag = address & 0x0000ffff;;
+    return tag >> 10;
 }
 
 int is_dirty(int way, int setnum){
@@ -51,55 +72,66 @@ int is_dirty(int way, int setnum){
 }
 
 void read_block(int blocknum){
-	int index = blocknum % CANT_SETS_EN_CACHE;
+    int index = blocknum % CANT_SETS_EN_CACHE;
 	int way = find_lru(index);
-	int tag = ((blocknum * TAM_BLOQUE_CACHE) & 0xff00) >> 8;
-	set_tag_set(cache->sets[index], way, tag);
-	int address = (tag << 8) | (index << 4);
-	if (is_dirty(way, index)){
-		write_block(way, index);
+    int address = blocknum * TAM_BLOQUE_CACHE;
+    int tag = find_tag(address);
+    if (is_dirty(way, index)){
+        write_block(way, index);
 	}
+    set_tag_set(cache->sets[index], way, tag);
+    cache->contador_usos++;
+	unsigned char dato;
 	for (int i = 0; i < TAM_BLOQUE_CACHE; i++){
-		write_byte_set(cache->sets[index],read_byte_memoria(mem_principal, address + i), tag, i, cache->contador_usos);
+	    dato = read_byte_memoria(mem_principal, address + i);
+		write_byte_set(cache->sets[index], dato, way, i, cache->contador_usos);
 	}
 }
 
 void write_block(int way, int setnum){
 	int tag = get_tag_set(cache->sets[setnum], way);
+	char dato;
+	int address = ((tag << 10)|(setnum << 6));
 	for (int i = 0; i < TAM_BLOQUE_CACHE; i++){
-		write_byte_memoria(mem_principal, (tag << 8)|(setnum << 4), read_byte_set(cache->sets[setnum], tag, i, cache->contador_usos));
+	    dato = read_byte_set(cache->sets[setnum], way, i, cache->contador_usos);
+		write_byte_memoria(mem_principal, address + i, dato);
 	}
 }
 
 int read_byte(int address){
-	int tag = (address & 0xff00) >> 8;
-	int index = (address & 0x00f0) >> 4;
-	int offset = address & 0x000f;
-	cache->contador_usos++;
+	int tag = find_tag(address);
+	int index = find_set(address);
+	int offset = find_offset(address);
+	int way = esta_en_set(cache->sets[index], tag);
+    cache->contador_usos++;
 	cache->accesos_a_mem++;
-	if (!esta_en_set(cache->sets[index], tag)){
-		cache->misses++;
-		read_block((address & 0xfff0)/ TAM_BLOQUE_CACHE);
+	if (way == -1){
+        cache->misses++;
+		read_block((address - offset)/ TAM_BLOQUE_CACHE);
+        way = esta_en_set(cache->sets[index], tag);
 	}
-	return(read_byte_set(cache ->sets[index], tag, offset, cache->contador_usos));
+    return(read_byte_set(cache ->sets[index], way, offset, cache->contador_usos));
 }
 
 int write_byte(int address, char value){
-	int tag = (address & 0xff00) >> 8;
-	int index = (address & 0x00f0) >> 4;
-	int offset = address & 0x000f;
+	int tag = find_tag(address);
+	int index = find_set(address);
+	int offset = find_offset(address);
+	int way = esta_en_set(cache->sets[index], tag);
     cache->contador_usos++;
 	cache->accesos_a_mem++;
-	if (!esta_en_set(cache->sets[index], tag)){
-		cache->misses++;
-		read_block((address & 0xfff0)/ TAM_BLOQUE_CACHE);
+	if (way == -1){
+        cache->misses++;
+        read_block((address - offset)/ TAM_BLOQUE_CACHE);
+        way = esta_en_set(cache->sets[index], tag);
 	}
-	write_byte_set(cache->sets[index], value, tag, offset, cache->contador_usos);
+	write_byte_set(cache->sets[index], value, way, offset, cache->contador_usos);
 	return 0;
 }
 
 int get_miss_rate(){
-	return (cache->misses/cache->accesos_a_mem)*100;
+    float mr = ((cache->misses)/(cache->accesos_a_mem))*100;
+	return mr;
 }
 
 unsigned char read_byte_memoria(mem_principal_t* memoria, int address){
@@ -125,9 +157,9 @@ void mostrar_error_y_salir(char *mensaje_error, int numero_salida){
 }
 
 int main(int argc, char* argv[]){
-	if (argc != 2) mostrar_error_y_salir("La cantidad de parametros no es la correcta", 1);
+	if (argc != 2) mostrar_error_y_salir(MSJ_ERROR_PARAMETROS, SALIDA_PARAMETROS);
 	FILE* archivo = fopen(argv[1], "r");
-	if (!archivo) mostrar_error_y_salir("No se encontro el archivo", 2);
+	if (!archivo) mostrar_error_y_salir(MSJ_ARCHIVO_INEXISTENTE, SALIDA_ARCHIVO);
 
 	char linea[100];
 	char* comando;
@@ -139,29 +171,27 @@ int main(int argc, char* argv[]){
 	while (fgets(linea, 100, archivo)){
 	    linea[strlen(linea) - 1] = '\0';
 		comando = strtok(linea, separador);
-		printf("%s\n", comando);
 		strcpy(comando1, comando);
-		if (strcmp(comando1, "MR") == 0) printf("%d\n", get_miss_rate());
+		if (strcmp(comando1, "MR") == 0) printf("%d%\n", get_miss_rate());
 		if (strcmp(comando1, "R") == 0 || strcmp(comando1, "W") == 0){
             comando = strtok(NULL, separador);
             address = atoi(comando);
-         //   printf("%d\n", address);
-            if (address > TAM_MEM_PPAL){
-				printf("La direccion especificada no es valida\n");
+            if (address > TAM_MEM_PPAL || address < 0){
+				printf(MSJ_ERROR_ADDRESS, address);
 				continue;
 			}
 			if (strcmp(comando1, "W") == 0){
 			    comando = strtok(NULL, separador);
 			    int value = atoi(comando);
 				if (value > 255 || value < 0){
-					printf("El valor indicado no es valido\n");
+					printf(MSJ_ERROR_VALUE, value);
 					continue;
 				}
-				if (!(write_byte(address, (unsigned char) value))) printf("El valor se escribio correctamente\n");
-				else printf("El valor no pudo escribirse correctamente\n");
+				if (!(write_byte(address, (unsigned char) value))) printf(MSJ_WRITE_OK);
+				else printf(MSJ_ERROR_WRITE);
 				continue;
 			}
-			printf("%d\n", read_byte(address));
+			printf("Read %d\n", read_byte(address));
 		}
 	}
 	fclose(archivo);

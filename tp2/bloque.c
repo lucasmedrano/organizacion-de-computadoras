@@ -11,20 +11,21 @@ struct bloque{
     int dirty;
     bool valido;
     int tiempo_ultimo_uso;
-    char datos[TAM_BLOQUE];
+    char* datos;
 };
 
 bloque_t* crear_bloque(){
     bloque_t* bloque = malloc(sizeof(bloque_t));
-    if (!bloque) return NULL;
+    bloque->datos = calloc(TAM_BLOQUE, 1);
     bloque->tag = -1;
     bloque->dirty = 0;
     bloque->valido = false;
-    bloque->tiempo_ultimo_uso = 0;
+    bloque->tiempo_ultimo_uso = -1;
     return bloque;
 }
 
 void destruir_bloque(bloque_t* bloque){
+    free(bloque->datos);
     free(bloque);
 }
 
@@ -46,10 +47,12 @@ unsigned char read(bloque_t* bloque, int offset, int uso){
 }
 
 void write(bloque_t* bloque, int offset, char byte, int uso){
+  //  printf("offset: %d, valor: %d|", offset, byte);
     bloque->valido = true;
     bloque->tiempo_ultimo_uso = uso;
     (bloque->datos)[offset] = byte;
     bloque->dirty = 1;
+   // printf("offset:%d|%d| ", offset, bloque->datos[offset]);
 }
 
 void set_tag(bloque_t* bloque, int tag){

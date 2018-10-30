@@ -23,6 +23,8 @@ int write_byte(int address, char value);
 int get_miss_rate();
 void destruir_cache();
 
+int find_tag(int address);
+int find_offset(int address);
 unsigned char read_byte_memoria(mem_principal_t* memoria, int address);
 int write_byte_memoria(mem_principal_t* memoria, int address, char byte);
 

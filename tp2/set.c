@@ -35,37 +35,30 @@ void destruir_set(set_t* set){
     free(set);
 }
 
-bool esta_en_set(set_t* set, int tag){
+int esta_en_set(set_t* set, int tag){
+    int tag_bloque;
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
-        if(get_tag(set->bloques[i]) == tag){
-            return true;
-        }
-    }
-    return false;
-}
-
-int read_byte_set(set_t *set, int tag, int offset, int contador_usos){
-    for (int i = 0; i < CANT_BLOQUES_SET; i++){
-        if(get_tag(set->bloques[i]) == tag){
-            if (!es_valido(set->bloques[i])) return -1;
-            return (int)(read(set->bloques[i], offset, contador_usos));
+        tag_bloque = get_tag(set->bloques[i]);
+        if(tag_bloque == tag){
+            return i;
         }
     }
     return -1;
 }
 
-void write_byte_set(set_t* set, char byte, int tag, int offset, int contador_usos){
-    for (int i = 0; i < CANT_BLOQUES_SET; i++){
-        if(get_tag(set->bloques[i]) == tag){
-            write(set->bloques[i], offset, byte, contador_usos);
-        }
-    }
+int read_byte_set(set_t *set, int way, int offset, int contador_usos){
+    return (int)(read(set->bloques[way], offset, contador_usos));
+}
+
+void write_byte_set(set_t* set, char byte, int way, int offset, int contador_usos){
+    write(set->bloques[way], offset, byte, contador_usos);
 }
 
 int find_lru_set(set_t* set, int contador_usos){
-    int tiempo_minimo = contador_usos, tiempo_actual;
+    int tiempo_minimo = contador_usos;
+    int tiempo_actual;
     int way;
-    for(int i = 1; i < CANT_BLOQUES_SET; i++){
+    for(int i = 0; i < CANT_BLOQUES_SET; i++){
         tiempo_actual = get_ultimo_uso(set->bloques[i]);
         if(tiempo_actual < tiempo_minimo){
             tiempo_minimo = tiempo_actual;
