@@ -13,7 +13,7 @@ int is_dirty_set(set_t *set, int via);
 int read_byte_set(set_t *set, int way, int offset, int contador_usos);
 void write_byte_set(set_t* set, char byte, int way, int offset, int contador_usos);
 int find_lru_set(set_t* set, int contador_usos);
-int esta_en_set(set_t* set, int tag);
+int find_way(set_t* set, int tag);
 void set_tag_set(set_t* set, int via, int tag);
 int get_tag_set(set_t* set, int via);
 void destruir_set(set_t* set);

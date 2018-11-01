@@ -1,0 +1,9 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}Desarrollo}{1}
+\contentsline {subsection}{\numberline {1.1}Implementaci\IeC {\'o}n}{1}
+\contentsline {subsubsection}{\numberline {1.1.1}Programa}{1}
+\contentsline {subsubsection}{\numberline {1.1.2}Memoria cach\IeC {\'e}}{1}
+\contentsline {section}{\numberline {2}Mediciones}{1}
+\contentsline {section}{\numberline {3}Conclusiones}{4}
+\contentsline {section}{\numberline {4}Ap\IeC {\'e}ndice}{5}
+\contentsline {subsection}{\numberline {4.1}Enunciado}{5}

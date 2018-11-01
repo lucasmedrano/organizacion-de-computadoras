@@ -35,7 +35,7 @@ void destruir_set(set_t* set){
     free(set);
 }
 
-int esta_en_set(set_t* set, int tag){
+int find_way(set_t *set, int tag){
     int tag_bloque;
     for (int i = 0; i < CANT_BLOQUES_SET; i++){
         tag_bloque = get_tag(set->bloques[i]);

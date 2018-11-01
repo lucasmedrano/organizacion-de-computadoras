@@ -16,7 +16,7 @@
 #define SALIDA_ARCHIVO 2
 #define MSJ_ERROR_ADDRESS "La direccion %d no es valida\n"
 #define MSJ_ERROR_VALUE "El valor %d no es valido\n"
-#define MSJ_WRITE_OK "El valor se escribio correctamente\n"
+#define MSJ_WRITE_OK "El valor %d se escribio correctamente\n"
 #define MSJ_ERROR_WRITE "El valor no pudo escribirse correctamente\n"
 
 struct cache{
@@ -102,13 +102,13 @@ int read_byte(int address){
 	int tag = find_tag(address);
 	int index = find_set(address);
 	int offset = find_offset(address);
-	int way = esta_en_set(cache->sets[index], tag);
+	int way = find_way(cache->sets[index], tag);
     cache->contador_usos++;
 	cache->accesos_a_mem++;
 	if (way == -1){
         cache->misses++;
 		read_block((address - offset)/ TAM_BLOQUE_CACHE);
-        way = esta_en_set(cache->sets[index], tag);
+        way = find_way(cache->sets[index], tag);
 	}
     return(read_byte_set(cache ->sets[index], way, offset, cache->contador_usos));
 }
@@ -117,13 +117,13 @@ int write_byte(int address, char value){
 	int tag = find_tag(address);
 	int index = find_set(address);
 	int offset = find_offset(address);
-	int way = esta_en_set(cache->sets[index], tag);
+	int way = find_way(cache->sets[index], tag);
     cache->contador_usos++;
 	cache->accesos_a_mem++;
 	if (way == -1){
         cache->misses++;
         read_block((address - offset)/ TAM_BLOQUE_CACHE);
-        way = esta_en_set(cache->sets[index], tag);
+        way = find_way(cache->sets[index], tag);
 	}
 	write_byte_set(cache->sets[index], value, way, offset, cache->contador_usos);
 	return 0;
@@ -172,7 +172,7 @@ int main(int argc, char* argv[]){
 	    linea[strlen(linea) - 1] = '\0';
 		comando = strtok(linea, separador);
 		strcpy(comando1, comando);
-		if (strcmp(comando1, "MR") == 0) printf("%d%\n", get_miss_rate());
+		if (strcmp(comando1, "MR") == 0) printf("Miss rate: %d%\n", get_miss_rate());
 		if (strcmp(comando1, "R") == 0 || strcmp(comando1, "W") == 0){
             comando = strtok(NULL, separador);
             address = atoi(comando);
@@ -187,7 +187,7 @@ int main(int argc, char* argv[]){
 					printf(MSJ_ERROR_VALUE, value);
 					continue;
 				}
-				if (!(write_byte(address, (unsigned char) value))) printf(MSJ_WRITE_OK);
+				if (!(write_byte(address, (unsigned char) value))) printf(MSJ_WRITE_OK, value);
 				else printf(MSJ_ERROR_WRITE);
 				continue;
 			}

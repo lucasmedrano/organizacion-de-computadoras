@@ -47,12 +47,10 @@ unsigned char read(bloque_t* bloque, int offset, int uso){
 }
 
 void write(bloque_t* bloque, int offset, char byte, int uso){
-  //  printf("offset: %d, valor: %d|", offset, byte);
     bloque->valido = true;
     bloque->tiempo_ultimo_uso = uso;
     (bloque->datos)[offset] = byte;
     bloque->dirty = 1;
-   // printf("offset:%d|%d| ", offset, bloque->datos[offset]);
 }
 
 void set_tag(bloque_t* bloque, int tag){
