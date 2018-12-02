@@ -88,37 +88,6 @@ breaklines=true
 	
 	\setcounter{page}{1}
 	
-	\section{Enunciado}
-
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=1, page = 1, clip, trim=1.5in 1.5in 20mm 35mm]{files/enunciado.pdf}
-	\end{figure}
-	
-	\newpage
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=1, page = 2, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
-	\end{figure}
-	
-	\newpage
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=1, page = 3, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
-	\end{figure}
-	
-	\newpage
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=1, page = 4, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
-	\end{figure}
-	
-	\newpage
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=1, page = 5, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
-	\end{figure}
-	
 	\section{Desarrollo}
 	\
 	
@@ -137,8 +106,7 @@ breaklines=true
 		Se decidió por implementar una versión \textit{in place} del algoritmo Quicksort, por cuestiones de simplicidad y para mayor legibilidad el código. Ésta diferencia el tipo de ordenamiento que se hará en un método de ordenamiento general, lo cual se logra con un entero identificador: si vale 1, el ordenamiento es numérico; para cualquier otro valor se realizará un ordenamiento alfabético. En el primer caso se utilizará una función atoi para pasar las cadenas de caracteres a números enteros mientras que en el otro caso se compararán las cadenas entre sí. 
 		
 		Se elegió cambiar el nombre de la función qsort puesto que esta se encuentra reservada por C. Se llamará orgaqsort a la función implementada en C, y orgaqsortassembly a su contraparte en assembly.
-		
-		El comando utilizado para compilar el programa será \texttt{gcc -Wall -o qsort qsort.c orgaqsortassembly.s} 
+	
 	\subsubsection{Diagramas de stack}
 		A continuación se muestran los diagramas de stack de las diferentes funciones del archivo assembly.
 		\begin{table}
@@ -165,6 +133,7 @@ breaklines=true
 			\label{tab:Figura1}
 			\end{center}
 		\end{table}
+		
 		\begin{table}
 			\begin{center}
 				\begin{tabular}{|C{2cm}|C{2cm}|}
@@ -197,6 +166,12 @@ breaklines=true
 			\label{tab:Figura1}
 			\end{center}
 		\end{table}
+		
+		\subsubsection{Dificultades}
+		Durante el desarrollo de este trabajo las principales dificultades que se presentaron estuvieron relacionadas, en primer lugar, con el emulador, ya que la creación del túnel \texttt{ssh} y el pasaje de archivos entre las terminales \texttt{\#host} y \texttt{\#guest} resultaron complicadas de entender en un principio.
+		
+		En segundo lugar, y como dificultad principal estuvo la integración de las diferentes funciones que conforman el algoritmo del quicksort en assembly, puesto que se dificulta el seguimiento de éstas al tener que tener en cuenta los contenidos de cada registro y utilizar el \textit{stack} para almacenar los valores de las variables que deban ser preservadas entre llamadas. Fue esto último lo que generó los mayores problemas en la realización del trabajo.
+		
 	\subsection{Pruebas}
 	
 	\subsubsection{Entradas incorrectas}
@@ -306,9 +281,42 @@ zzzzzzzzzzzz b
 	
 	\section{Conclusiones}
 	
-	La realización de este trabajo resultó de mucha utilidad para entender como funcionan las herramientas usadas, como el emulador y el lenguaje, algo que se presentó dificil en un principio. También contribuyó para incorporar las convenciones usadas para trabajar con a arquitectura MIPS.
-	Por otra parte, permitió aprender a programar en lenguaje ensamblador, prestándole atención a los detalles y valiéndose de las estructuras generadas por las funciones, como la pila, para almacenar los parámetros cuyo valor se quiere seguir a lo largo de la ejecución de esa función en particular. Sumado a esto, sirvió para comprender cómo combinar archivos en C y archivos en lenguaje assembly, cosa inédita hasta ese momento.
-	Sacamos del trabajo buenas prácticas, como lo son el probar las funciones del codigo assembly por separado para luego incorporarlas, ya que una vez que está todo junto se hace mas complejo; y el uso del debugger tanto para solucionar los problemas que pudiera tener el programa como para realizar el seguimiento del código ejecutado.
+	La realización de este trabajo resultó de mucha utilidad para entender como funcionan las herramientas usadas, como el emulador y el lenguaje así como también contribuyó para incorporar las convenciones usadas para trabajar con a arquitectura MIPS.
+	Por otra parte, permitió aprender a programar en lenguaje ensamblador, prestándole atención a los detalles y valiéndose de las estructuras generadas por las funciones, como la pila, para almacenar los parámetros cuyo valor se quiere seguir a lo largo de la ejecución de esa función en particular. Sumado a esto, sirvió para comprender cómo combinar archivos en C y archivos en lenguaje assembly.
+	Sacamos del trabajo buenas prácticas, como lo son el testeo de funciones assembly por separado para luego incorporarlas, ya que una vez integrado se hace mas complejo; y el uso del debugger tanto para solucionar los problemas que pudiera tener el programa como para realizar el seguimiento del código ejecutado.
 	
 	Se entregan dos scripts. Uno en C, con una implementacion de qsort en C y otras funciones necesarias; y uno en assembly sólo con la funciones \texttt{qsort}, \texttt{comparar} y \texttt{atoi}.
+	
+	\newpage
+	\section{Apéndice}
+	\subsection{Enunciado}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1, page = 1, clip, trim=1.5in 1.5in 20mm 35mm]{files/enunciado.pdf}
+	\end{figure}
+	
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1, page = 2, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
+	\end{figure}
+	
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1, page = 3, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
+	\end{figure}
+	
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1, page = 4, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
+	\end{figure}
+	
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1, page = 5, clip, trim=1.5in 36mm 20mm 1.5in]{files/enunciado.pdf}
+	\end{figure}
 \end{document}
