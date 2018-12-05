@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.23)  5 DEC 2018 01:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.23)  5 DEC 2018 16:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -729,14 +729,20 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `tp3.toc'.
 
- [2] [1] [2]
-<files/tp3-c2-2018.pdf, id=21, page=1, 597.50829pt x 845.0471pt>
+ [2] [1]
+<files/cpuunicycle.png, id=18, 1039.885pt x 579.16376pt>
+File: files/cpuunicycle.png Graphic file (type png)
+<use files/cpuunicycle.png>
+Package pdftex.def Info: files/cpuunicycle.png  used on input line 136.
+(pdftex.def)             Requested size: 266.48735pt x 148.41388pt.
+ [2 <./files/cpuunicycle.png>] [3]
+<files/tp3-c2-2018.pdf, id=28, page=1, 597.50829pt x 845.0471pt>
 File: files/tp3-c2-2018.pdf Graphic file (type pdf)
 <use files/tp3-c2-2018.pdf, page 1>
-Package pdftex.def Info: files/tp3-c2-2018.pdf , page1 used on input line 141.
+Package pdftex.def Info: files/tp3-c2-2018.pdf , page1 used on input line 158.
 (pdftex.def)             Requested size: 432.19673pt x 592.1007pt.
 
-Overfull \hbox (51.49886pt too wide) in paragraph at lines 141--142
+Overfull \hbox (51.49886pt too wide) in paragraph at lines 158--159
  [][] 
  []
 
@@ -744,29 +750,14 @@ Overfull \hbox (51.49886pt too wide) in paragraph at lines 141--142
 Overfull \vbox (24.4972pt too high) has occurred while \output is active []
 
 
-[3 <./files/tp3-c2-2018.pdf>]
-<files/tp3-c2-2018.pdf, id=58, page=2, 597.50829pt x 845.0471pt>
+[4 <./files/tp3-c2-2018.pdf>]
+<files/tp3-c2-2018.pdf, id=65, page=2, 597.50829pt x 845.0471pt>
 File: files/tp3-c2-2018.pdf Graphic file (type pdf)
 <use files/tp3-c2-2018.pdf, page 2>
-Package pdftex.def Info: files/tp3-c2-2018.pdf , page2 used on input line 147.
+Package pdftex.def Info: files/tp3-c2-2018.pdf , page2 used on input line 164.
 (pdftex.def)             Requested size: 432.19673pt x 634.21066pt.
 
-Overfull \hbox (51.49886pt too wide) in paragraph at lines 147--148
- [][] 
- []
-
-
-Overfull \vbox (5.97382pt too high) has occurred while \output is active []
-
-
-[4 <./files/tp3-c2-2018.pdf>]
-<files/tp3-c2-2018.pdf, id=76, page=3, 597.50829pt x 845.0471pt>
-File: files/tp3-c2-2018.pdf Graphic file (type pdf)
-<use files/tp3-c2-2018.pdf, page 3>
-Package pdftex.def Info: files/tp3-c2-2018.pdf , page3 used on input line 153.
-(pdftex.def)             Requested size: 432.19673pt x 634.21066pt.
-
-Overfull \hbox (51.49886pt too wide) in paragraph at lines 153--154
+Overfull \hbox (51.49886pt too wide) in paragraph at lines 164--165
  [][] 
  []
 
@@ -775,13 +766,13 @@ Overfull \vbox (5.97382pt too high) has occurred while \output is active []
 
 
 [5 <./files/tp3-c2-2018.pdf>]
-<files/tp3-c2-2018.pdf, id=98, page=4, 597.50829pt x 845.0471pt>
+<files/tp3-c2-2018.pdf, id=84, page=3, 597.50829pt x 845.0471pt>
 File: files/tp3-c2-2018.pdf Graphic file (type pdf)
-<use files/tp3-c2-2018.pdf, page 4>
-Package pdftex.def Info: files/tp3-c2-2018.pdf , page4 used on input line 159.
+<use files/tp3-c2-2018.pdf, page 3>
+Package pdftex.def Info: files/tp3-c2-2018.pdf , page3 used on input line 170.
 (pdftex.def)             Requested size: 432.19673pt x 634.21066pt.
 
-Overfull \hbox (51.49886pt too wide) in paragraph at lines 159--160
+Overfull \hbox (51.49886pt too wide) in paragraph at lines 170--171
  [][] 
  []
 
@@ -789,18 +780,33 @@ Overfull \hbox (51.49886pt too wide) in paragraph at lines 159--160
 Overfull \vbox (5.97382pt too high) has occurred while \output is active []
 
 
-[6 <./files/tp3-c2-2018.pdf>] (./tp3.aux
+[6 <./files/tp3-c2-2018.pdf>]
+<files/tp3-c2-2018.pdf, id=105, page=4, 597.50829pt x 845.0471pt>
+File: files/tp3-c2-2018.pdf Graphic file (type pdf)
+<use files/tp3-c2-2018.pdf, page 4>
+Package pdftex.def Info: files/tp3-c2-2018.pdf , page4 used on input line 176.
+(pdftex.def)             Requested size: 432.19673pt x 634.21066pt.
+
+Overfull \hbox (51.49886pt too wide) in paragraph at lines 176--177
+ [][] 
+ []
+
+
+Overfull \vbox (5.97382pt too high) has occurred while \output is active []
+
+
+[7 <./files/tp3-c2-2018.pdf>] (./tp3.aux
 LaTeX Info: Redefining \. on input line 7.
 LaTeX Info: Redefining \% on input line 7.
 ) ) 
 Here is how much of TeX's memory you used:
- 7018 strings out of 494820
- 100764 string characters out of 6177788
+ 7033 strings out of 494820
+ 101007 string characters out of 6177788
  216771 words of memory out of 5000000
- 10216 multiletter control sequences out of 15000+600000
+ 10229 multiletter control sequences out of 15000+600000
  10239 words of font info for 36 fonts, out of 8000000 for 9000
  62 hyphenation exceptions out of 8191
- 48i,8n,49p,357b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,8n,49p,669b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texl
@@ -808,15 +814,15 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-tt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pf
-b>
-Output written on tp3.pdf (8 pages, 154020 bytes).
+lic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on tp3.pdf (9 pages, 180448 bytes).
 PDF statistics:
- 140 PDF objects out of 1000 (max. 8388607)
- 108 compressed objects within 2 object streams
+ 150 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 45 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 50 words of extra memory for PDF output out of 10000 (max. 10000000)
 

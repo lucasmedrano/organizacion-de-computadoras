@@ -18,6 +18,8 @@
 		"beq":  {"type": "I", "args": ["reg", "reg", "offset"], "fields": {"op": 4, "rs": "#1", "rt": "#2", "imm": "#3"}, "desc": "PC += ($t1 == $t2) ? (offset * 4 + 4) : 4"},
 		"lw":   {"type": "I", "args": ["reg", "data"], "fields": {"op": 35, "rs": "#2.offset", "rt": "#1", "imm": "#2.base"}, "desc": "$t1 = MEM[base + $t2]"},
 		"sw":   {"type": "I", "args": ["reg", "data"], "fields": {"op": 43, "rs": "#2.offset", "rt": "#1", "imm": "#2.base"}, "desc": "MEM[base + $t2] = $t1"},
+        "mult": {"type": "R", "args": ["reg", "reg"], "fields": {"op": 0, "rs": "#1", "rt": "#2", "rd": 0, "shamt": 0, "func": 24}, "desc": "(HI,LO) = $t1 * $t2"},
+        "mflo": {"type": "R", "args": ["reg"], "fields": {"op": 0, "rs": 0, "rt": 0, "rd": "#1", "shamt": 0, "func": 18}, "desc": "$t1 = LO"},
         "andi": {"type": "I", "args": ["reg", "reg", "int"], "fields": {"op": 1, "rs": "#2", "rt": "#1", "imm": "#3", "func": 36}, "desc": "rs = rt and imm"},
         "jregs":    {"type": "I", "args": ["reg", "reg"], "fields": {"op": 3, "rs": "#2", "rt": "#1", "imm": 0}, "desc": "j rs + rt"}
     },
@@ -31,7 +33,8 @@
 		"ble":  {"args": ["reg", "reg", "offset"], "to": ["sgt $1, #1, #2", "beq $1, $0, #3"], "desc": "PC += ($t1 <= $t2) ? (offset * 4 + 4) : 4"},
 		"b":    {"args": ["offset"], "to": ["beq $0, $0, #1"], "desc": "PC += offset * 4 + 4"},
 		"neg":  {"args": ["reg", "reg"], "to": ["sub #1, $0, #2"], "desc": "$t1 = -$t2"},
-		"not":  {"args": ["reg", "reg"], "to": ["nor #1, #2, $0"], "desc": "$t1 = ~$t2"}
+		"not":  {"args": ["reg", "reg"], "to": ["nor #1, #2, $0"], "desc": "$t1 = ~$t2"},
+        "lwescalado": {"args": ["reg", "data"], "to": ["addi $8, $zero, #2.offset", "mult #2.reg, $8", "mflo $8", "add $8, $8, #2.base", "lw #1, 0($8)"]},
 	},
 	"control": {
 		"0": {"RegDst": 1, "RegWrite": 1, "ALUOp": 2, "ALUSrc": 0, "MemToReg": 0},
@@ -43,17 +46,22 @@
 		"35": {"ALUOp": 0, "ALUSrc": 1, "RegDst": 0, "RegWrite": 1, "MemRead": 1, "MemWrite": 0, "MemToReg": 1},
 		"43": {"ALUOp": 0, "ALUSrc": 1, "RegDst": 0, "RegWrite": 0, "MemRead": 0, "MemWrite": 1, "MemToReg": 0}
 	},
-	"alu": {
+    "alu": {
 		"aluop_size": 2,
 		"func_size": 6,
 		"control_size": 4,
 		"control": [
 			{"aluop": 0, "out": {"Operation": 2}},
 			{"aluop": 1, "out": {"Operation": 6}},
+			{"aluop": 2, "func": 16, "out": {"Operation": 10}},
+			{"aluop": 2, "func": 18, "out": {"Operation": 11}},
+			{"aluop": 2, "func": 24, "out": {"Operation": 8}},
+			{"aluop": 2, "func": 26, "out": {"Operation": 9}},
 			{"aluop": 2, "func": 32, "out": {"Operation": 2}},
 			{"aluop": 2, "func": 34, "out": {"Operation": 6}},
 			{"aluop": 2, "func": 36, "out": {"Operation": 0}},
 			{"aluop": 2, "func": 37, "out": {"Operation": 1}},
+			{"aluop": 2, "func": 38, "out": {"Operation": 3}},
 			{"aluop": 2, "func": 39, "out": {"Operation": 12}},
 			{"aluop": 2, "func": 42, "out": {"Operation": 7}}
 		],
@@ -61,8 +69,13 @@
 			"0": "and",
 			"1": "or",
 			"2": "add",
+			"3": "xor",
 			"6": "sub",
 			"7": "slt",
+			"8": "mult",
+			"9": "div",
+			"10": "mfhi",
+			"11": "mflo",
 			"12": "nor"
 		}
 	}

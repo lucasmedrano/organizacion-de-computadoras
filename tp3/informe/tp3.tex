@@ -119,18 +119,35 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	\subsubsection{jregs - CPU pipeline}
 	
 	\subsubsection{lw - CPU uniciclo}
+	Para implementar esta instrucción se tomaron algunas decisiones:
+	\begin{enumerate}
+	\item No modificar el datapath: Ya que hay que hacer una multiplicación y luego obtener el resultado del registro "LO" mediante la instrucción mflo, se optó por dejar el datapath igual, e implementar la instrucción como una pseudo-instrucción.
+	\item Implementarla como lw r1, r2, shamt(r3), debido a la sintaxis de MIPS.
+	\end{enumerate}
+	Se implementó la instrucción como una pseudo-instrucción: se multiplicó el valor de shamt por el de r2, se le sumó el de r3, se pidió el dato de memoria de dicha instrucción y se lo almacenó en r1.
+	Una idea fue agregar un adder, para poder hacer el producto en el mismo ciclo de reloj. Sin embargo, primero se necesitaba mover el resultado del registro "LO" a algún registro, por lo que se optó lo indicado previamente.
+	
 	
 	\subsection{Datapaths}
 	Los datapath utilizados, y modificados, para el trabajo quedaron de la siguiente manera.
-	\subsubsection{CPU uniciclo}
-	AGREGAR FOTO
-	\subsubsection{CPU pipeline}
-	AGREGAR FOTO
+	
+	\begin{figure}[h]
+  		\centering
+		    \includegraphics[width=0.7\textwidth]{files/cpuunicycle.png}
+	 	 \caption{Datapath de la CPU-Unicycle.}
+  		\label{fig:ejemplo}
+	\end{figure}
+
+	AGREGAR FOTO - pipeline
 	\subsection{Pruebas}
 	Para cada instrucción implementada se agregan una, o más, pruebas para asegurarse que el comportamiento sea el esperado. Se adjuntan dichas pruebas a los archivos del trabajo.
 	
 	
 	\section{Conclusiones}
+	Se logró implementar las instrucciones pedidas.
+	El trabajo nos ayudó a entender varios conceptos. Modificar el datapath, las estructuras y cableados permite entender mucho mejor el funcionamiento del procesador en general y de cada estructura en particular. Modificar los set de instrucciones ayuda a ver mucho mejor cómo influye el datapath utilizado a la hora de generar instrucciones. Aprendimos que el datapath define el set de instrucciones que se podrá utilizar, pero un mismo set de instrucciones puede ser implementado de varias maneras distintas (en este caso con un CPU uniciclo y uno Pipeline). Además, se logró conceptualizar la diferencia entre el CPU uniciclo y el CPU pipeline.
+	EL programa DrMips fue de gran ayuda para poder visualizar no solo el datapath, los set de instrucciones, los registros en todo momento, sino también el camino que seguía cada instrucción en el datapath al ser ejecutada.
+
 	
 	\newpage
 	\section{Apéndice}
