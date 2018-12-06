@@ -122,7 +122,7 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	Para implementar esta instrucción se tomaron algunas decisiones:
 	\begin{enumerate}
 	\item No modificar el datapath: Ya que hay que hacer una multiplicación y luego obtener el resultado del registro "LO" mediante la instrucción mflo, se optó por dejar el datapath igual, e implementar la instrucción como una pseudo-instrucción.
-	\item Implementarla como lw r1, r2, shamt(r3), debido a la sintaxis de MIPS.
+	\item Implementarla como lw r1, r2, shamt, r3, debido a la sintaxis de MIPS.
 	\end{enumerate}
 	Se implementó la instrucción como una pseudo-instrucción: se multiplicó el valor de shamt por el de r2, se le sumó el de r3, se pidió el dato de memoria de dicha instrucción y se lo almacenó en r1.
 	Una idea fue agregar un adder, para poder hacer el producto en el mismo ciclo de reloj. Sin embargo, primero se necesitaba mover el resultado del registro "LO" a algún registro, por lo que se optó lo indicado previamente.

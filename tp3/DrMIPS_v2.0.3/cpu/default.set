@@ -21,7 +21,7 @@
         "mult": {"type": "R", "args": ["reg", "reg"], "fields": {"op": 0, "rs": "#1", "rt": "#2", "rd": 0, "shamt": 0, "func": 24}, "desc": "(HI,LO) = $t1 * $t2"},
         "mflo": {"type": "R", "args": ["reg"], "fields": {"op": 0, "rs": 0, "rt": 0, "rd": "#1", "shamt": 0, "func": 18}, "desc": "$t1 = LO"},
         "andi": {"type": "I", "args": ["reg", "reg", "int"], "fields": {"op": 1, "rs": "#2", "rt": "#1", "imm": "#3", "func": 36}, "desc": "rs = rt and imm"},
-        "jregs":    {"type": "I", "args": ["reg", "reg"], "fields": {"op": 3, "rs": "#2", "rt": "#1", "imm": 0}, "desc": "j rs + rt"}
+        "jregs":    {"type": "I", "args": ["reg", "reg"], "fields": {"op": 3, "rs": "#2", "rt": "#1", "imm": 0}, "desc": "j rs + rt"},
     },
 	"pseudo": {
 		"li":   {"args": ["reg", "int"], "to": ["addi #1, $0, #2"], "desc": "$t1 = 22"},
@@ -34,7 +34,7 @@
 		"b":    {"args": ["offset"], "to": ["beq $0, $0, #1"], "desc": "PC += offset * 4 + 4"},
 		"neg":  {"args": ["reg", "reg"], "to": ["sub #1, $0, #2"], "desc": "$t1 = -$t2"},
 		"not":  {"args": ["reg", "reg"], "to": ["nor #1, #2, $0"], "desc": "$t1 = ~$t2"},
-        "lwescalado": {"args": ["reg", "data"], "to": ["addi $8, $zero, #2.offset", "mult #2.reg, $8", "mflo $8", "add $8, $8, #2.base", "lw #1, 0($8)"]},
+        "lwescalado": {"args": ["reg", "reg", "int", "reg"], "to": ["addi $8, $zero, #3", "mult #2, $8", "mflo $8", "add $8, $8, #4", "lw #1, 0($8)"]},
 	},
 	"control": {
 		"0": {"RegDst": 1, "RegWrite": 1, "ALUOp": 2, "ALUSrc": 0, "MemToReg": 0},
