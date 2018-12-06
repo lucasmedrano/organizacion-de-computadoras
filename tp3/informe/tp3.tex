@@ -113,11 +113,12 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	
 	\subsubsection{andi - CPU pipeline}
 	Al igual que en la versión uniciclo, para implementar esta instrucción no hizo falta más que generar un nuevo \texttt{opcode}, indicando las señales de control necesarias. En este caso se seteo \texttt{ALUOp} en el valor correspondiente a la operación \texttt{and}, y \texttt{ALUSrc} se seteó a 1 para indicar que en la segunda entrada de la ALU debe ingresarse el valor del campo \texttt{imm}. 
-	No fue necesario modificaar nada para el manejo de \textit{hazards} ya que con el soporte ya proporcionado bastaba.
+	No fue necesario modificar nada para el manejo de \textit{hazards} ya que con el soporte ya proporcionado bastaba.
 	 
 	\subsubsection{jregs - CPU uniciclo}
 	Para poder implementar esta instrucción no bastaban las estructuras que incluía el datapath uniciclo.
 	Se agregó un multiplexor que, mediante una entrada de control, decide si la siguiente direccion de PC es el resultado de la operación de la ALU o es la que indica MuxjUMP (PC+4/branch addres o jump address). Así, se puede setear que se sumen los registros indicados por parámetro, y que la siguiente direccion del PC sea dicha suma.
+	Se decidió llamar "jregs" a esta instrucción debido a que ya había una instrucción j en el set de instrucciones usado.
 	\subsubsection{j - CPU pipeline}
 	Para implementar \texttt{jump} se agregó un multiplexor que toma la salida del multiplexor que maneja los branches y la salida de la ALU. Para controlarlo, se agregó una señal de control llamada \textit{Jump}, que se setea únicamente por esta operación, y debió ser pasada a través de las distintas etapas del pipeline, lo que requirió agregar un bit más a los registros ID/EX y EX/MEM.
 	
@@ -151,7 +152,9 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	
 	\subsection{Pruebas}
 	Para cada instrucción implementada se agregan una, o más, pruebas para asegurarse que el comportamiento sea el esperado. Se adjuntan dichas pruebas a los archivos del trabajo.
-	
+	Para probar la instrucción andi, tanto en uniciclo como en pipeline, se setearon valores en los registros, se corrió la instrucción andi entre ellos, y se chequeó que los registros quedaran como se esparaba. 
+	Similarmente para lw en la cpu uniciclo, se guardó un dato en memoria y luego se setearon valores en registros tales que la combinación que pide el lw diera la dirección de memoria en donde se habia guardado el dato, y se comparó que el dato cargado en el registro sea el que habíamos cargado en memoria.
+	Para la instrucción jregs en la cpu uniciclo se setearon dos registros y luego se corrió la instrucción y se chequeó que el PC quede como se esperaba. Además, se añadió una instrucción que modificara algun registro luego del salto para ver si se tomaba, o no, y asi verificar si habia, o no, hazards.
 	
 	\section{Conclusiones}
 	Se logró implementar las instrucciones pedidas.

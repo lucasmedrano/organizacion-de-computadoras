@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  5 DEC 2018 23:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.23)  6 DEC 2018 11:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **tp3.tex
 (./tp3.tex
 LaTeX2e <2017-04-15>
-Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+Babel <3.18> and hyphenation patterns for 8 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
@@ -540,7 +540,7 @@ Package: scrkbase 2017/09/07 v3.24 KOMA-Script package (KOMA-Script-dependent b
 asics and keyval usage)
 
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2017/09/07 v3.24 KOMA-Script package (KOMA-Script-independent
+Package: scrbase 2017/09/07 v3.24 KOMA-Script package (KOMA-Script-independent 
 basics and keyval usage)
 
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrlfile.sty
@@ -630,7 +630,7 @@ LaTeX Info: Redefining \% on input line 74.
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes:
+* modes: 
 * h-part:(L,W,R)=(108.405pt, 380.69788pt, 108.405pt)
 * v-part:(T,H,B)=(108.405pt, 628.23685pt, 108.405pt)
 * \paperwidth=597.50787pt
@@ -759,7 +759,7 @@ Package pdftex.def Info: files/tp3-c2-2018.pdf , page1 used on input line 168.
 (pdftex.def)             Requested size: 453.87791pt x 634.21066pt.
 
 Overfull \hbox (73.18004pt too wide) in paragraph at lines 168--169
- [][]
+ [][] 
  []
 
 
@@ -774,7 +774,7 @@ Package pdftex.def Info: files/tp3-c2-2018.pdf , page2 used on input line 174.
 (pdftex.def)             Requested size: 453.87791pt x 613.78186pt.
 
 Overfull \hbox (73.18004pt too wide) in paragraph at lines 174--175
- [][]
+ [][] 
  []
 
 [6 <./files/tp3-c2-2018.pdf>]
@@ -785,7 +785,7 @@ Package pdftex.def Info: files/tp3-c2-2018.pdf , page3 used on input line 180.
 (pdftex.def)             Requested size: 453.87791pt x 613.78186pt.
 
 Overfull \hbox (73.18004pt too wide) in paragraph at lines 180--181
- [][]
+ [][] 
  []
 
 [7 <./files/tp3-c2-2018.pdf>]
@@ -796,7 +796,7 @@ Package pdftex.def Info: files/tp3-c2-2018.pdf , page4 used on input line 186.
 (pdftex.def)             Requested size: 453.87791pt x 613.78186pt.
 
 Overfull \hbox (73.18004pt too wide) in paragraph at lines 186--187
- [][]
+ [][] 
  []
 
 [8 <./files/tp3-c2-2018.pdf>] (./tp3.aux
@@ -806,30 +806,31 @@ LaTeX Info: Redefining \% on input line 7.
 
 LaTeX Warning: There were multiply-defined labels.
 
- )
+ ) 
 Here is how much of TeX's memory you used:
- 7040 strings out of 492982
- 101152 string characters out of 6134895
- 222413 words of memory out of 5000000
- 10470 multiletter control sequences out of 15000+600000
+ 7040 strings out of 494820
+ 101152 string characters out of 6177788
+ 217771 words of memory out of 5000000
+ 10235 multiletter control sequences out of 15000+600000
  10755 words of font info for 38 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
+ 62 hyphenation exceptions out of 8191
  48i,8n,49p,669b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on tp3.pdf (9 pages, 180448 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on tp3.pdf (10 pages, 241436 bytes).
 PDF statistics:
  155 PDF objects out of 1000 (max. 8388607)
  116 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  55 words of extra memory for PDF output out of 10000 (max. 10000000)
+
