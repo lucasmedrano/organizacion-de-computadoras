@@ -112,12 +112,16 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	Para esta instrucción no hizo falta agregar ninguna estructura nueva al datapath. Generando un nuevo codigo de operacion (op) y seteando las señales de control de la Unidad de Control y de la ALU  se pudo obtener el resultado deseado.
 	
 	\subsubsection{andi - CPU pipeline}
-	
+	Al igual que en la versión uniciclo, para implementar esta instrucción no hizo falta más que generar un nuevo \texttt{opcode}, indicando las señales de control necesarias. En este caso se seteo \texttt{ALUOp} en el valor correspondiente a la operación \texttt{and}, y \texttt{ALUSrc} se seteó a 1 para indicar que en la segunda entrada de la ALU debe ingresarse el valor del campo \texttt{imm}. 
+	No fue necesario modificaar nada para el manejo de \textit{hazards} ya que con el soporte ya proporcionado bastaba.
+	 
 	\subsubsection{jregs - CPU uniciclo}
 	Para poder implementar esta instrucción no bastaban las estructuras que incluía el datapath uniciclo.
 	Se agregó un multiplexor que, mediante una entrada de control, decide si la siguiente direccion de PC es el resultado de la operación de la ALU o es la que indica MuxjUMP (PC+4/branch addres o jump address). Así, se puede setear que se sumen los registros indicados por parámetro, y que la siguiente direccion del PC sea dicha suma.
-	\subsubsection{jregs - CPU pipeline}
+	\subsubsection{j - CPU pipeline}
+	Para implementar \texttt{jump} se agregó un multiplexor que toma la salida del multiplexor que maneja los branches y la salida de la ALU. Para controlarlo, se agregó una señal de control llamada \textit{Jump}, que se setea únicamente por esta operación, y debió ser pasada a través de las distintas etapas del pipeline, lo que requirió agregar un bit más a los registros ID/EX y EX/MEM.
 	
+	Para el manejo de hazards se agregó una compuerta \texttt{Or} que toma las señales de Branch y Jump y se las conecta a los registros de cada etapa del pipeline en la entrada \textit{Flush}, para agregar un ciclo de stall cuando se ejecuta un salto.
 	\subsubsection{lw - CPU uniciclo}
 	Para implementar esta instrucción se tomaron algunas decisiones:
 	\begin{enumerate}
@@ -131,14 +135,20 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 	\subsection{Datapaths}
 	Los datapath utilizados, y modificados, para el trabajo quedaron de la siguiente manera.
 	
-	\begin{figure}[h]
-  		\centering
-		    \includegraphics[width=0.7\textwidth]{files/cpuunicycle.png}
-	 	 \caption{Datapath de la CPU-Unicycle.}
-  		\label{fig:ejemplo}
-	\end{figure}
-
-	AGREGAR FOTO - pipeline
+		\begin{figure}[h]
+	  		\centering
+			    \includegraphics[width=\textwidth]{files/cpuunicycle.png}
+		 	 \caption{Datapath de la CPU-Unicycle.}
+	  		\label{fig}
+		\end{figure}
+	
+		\begin{figure}[!h]
+	  		\centering
+			    \includegraphics[width=\textwidth]{files/cpupipelined.png}
+		 	 \caption{Datapath de la CPU-Pipelined.}
+	  		\label{fig}
+		\end{figure}	
+	
 	\subsection{Pruebas}
 	Para cada instrucción implementada se agregan una, o más, pruebas para asegurarse que el comportamiento sea el esperado. Se adjuntan dichas pruebas a los archivos del trabajo.
 	
@@ -155,25 +165,25 @@ cuya dirección es Rt + Rd * shamt. Esta última sólo se implementara en la cpu
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=1, page = 1, clip, trim=1.5in 1.5in 20mm 2in]{files/tp3-c2-2018.pdf}
+		\includegraphics[scale=1, page = 1, clip, trim=1.2in 36mm 20mm 1.5in]{files/tp3-c2-2018.pdf}
 	\end{figure}
 	
 	\newpage
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=1, page = 2, clip, trim=1.5in 36mm 20mm 1.5in]{files/tp3-c2-2018.pdf}
+		\includegraphics[scale=1, page = 2, clip, trim=1.2in 2in 20mm 1.2in]{files/tp3-c2-2018.pdf}
 	\end{figure}
 	
 	\newpage
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=1, page = 3, clip, trim=1.5in 36mm 20mm 1.5in]{files/tp3-c2-2018.pdf}
+		\includegraphics[scale=1, page = 3, clip, trim=1.2in 2in 20mm 1.2in]{files/tp3-c2-2018.pdf}
 	\end{figure}
 	
 	\newpage
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=1, page = 4, clip, trim=1.5in 36mm 20mm 1.5in]{files/tp3-c2-2018.pdf}
+		\includegraphics[scale=1, page = 4, clip, trim=1.2in 2in 20mm 1.2in]{files/tp3-c2-2018.pdf}
 	\end{figure}
 	
 \end{document}
